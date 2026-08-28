@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FM Practice Lab · 3 Mock Exams</title>
+<style>
+  :root{
+    --ink:#24324a; --muted:#6f7a8e; --line:#e7e9ef; --paper:#fff; --bg:#f7f8f5;
+    --sage:#dfeee2; --sage2:#eef6ef; --sage-strong:#6f9b7b;
+    --blue:#e7eefc; --blue2:#f2f5fb; --blue-strong:#5572aa;
+    --rose:#f8e8ea; --rose-strong:#ad6972; --butter:#fff3cf;
+    --shadow:0 18px 55px rgba(38,48,66,.10); --radius:22px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:
+    radial-gradient(circle at 10% 10%,rgba(223,238,226,.75),transparent 26rem),
+    radial-gradient(circle at 92% 14%,rgba(231,238,252,.72),transparent 24rem),var(--bg)}
+  button,input{font:inherit} button{cursor:pointer}.hidden{display:none!important}.shell{min-height:100vh}
+  .tiny-stars{position:fixed;inset:0;pointer-events:none;opacity:.34;background-image:radial-gradient(circle,#9fabc0 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.45),transparent 78%)}
+
+  .start-wrap{min-height:100vh;display:grid;place-items:center;padding:32px 20px}
+  .start-card{width:min(980px,100%);background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);border-radius:32px;padding:38px;position:relative;overflow:hidden}
+  .start-card:before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-95px;top:-100px;background:var(--sage)}
+  .start-card:after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;left:-75px;bottom:-85px;background:var(--blue)}
+  .brand-row{display:flex;align-items:center;gap:13px;position:relative;z-index:1}.mark{width:48px;height:48px;border-radius:16px;background:linear-gradient(145deg,#7f9dc5,#6f9b7b);display:grid;place-items:center;box-shadow:0 8px 20px rgba(72,93,126,.18)}.mark svg{width:28px;height:28px}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800}
+  h1{font-size:clamp(34px,5vw,55px);line-height:1.03;margin:22px 0 12px;letter-spacing:-.04em;position:relative;z-index:1}
+  .lede{font-size:17px;color:var(--muted);line-height:1.6;max-width:760px;position:relative;z-index:1;margin-bottom:22px}
+  .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0 26px;position:relative;z-index:1}
+  .fact{padding:13px 14px;border:1px solid var(--line);border-radius:17px;background:#fff}.fact b{display:block;font-size:17px;margin-bottom:2px}.fact span{font-size:11px;color:var(--muted)}
+
+  .section-label{font-size:12px;text-transform:uppercase;letter-spacing:.11em;font-weight:900;color:var(--muted);margin:8px 0 10px;position:relative;z-index:1}
+  .set-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;z-index:1;margin-bottom:24px}
+  .set-card{border:1px solid var(--line);border-radius:20px;background:#fff;padding:17px;min-height:168px;display:flex;flex-direction:column;transition:.18s ease;position:relative}
+  .set-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(36,50,74,.06)}
+  .set-card.selected{border-color:#7d98bd;box-shadow:0 0 0 4px rgba(125,152,189,.12);background:#fbfcff}
+  .set-card.locked{background:#fafafa}
+  .set-card .set-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .set-num{font-weight:950;font-size:18px}.pill{font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:6px 9px;background:var(--sage2);color:#55735e}.pill.hard{background:#fff0f2;color:#985964}.pill.open{background:#eef5ff;color:#53709b}
+  .set-name{font-size:13px;color:var(--muted);line-height:1.4;margin-top:8px;min-height:38px}
+  .set-meta{font-size:11px;color:#8791a2;margin-top:8px}
+  .set-action{margin-top:auto;border:1px solid #dce1e8;background:#fff;border-radius:12px;padding:9px 11px;font-size:12px;font-weight:850;color:var(--ink)}
+  .set-card.selected .set-action{background:#eef4fc;border-color:#cdd9eb;color:#4f6e9b}
+  .set-card.locked .set-action{background:#fff8f9;color:#89535a;border-color:#ead0d4}
+
+  .name-label{display:block;font-size:13px;font-weight:800;margin:12px 0 8px;position:relative;z-index:1}
+  .name-row{display:flex;gap:12px;position:relative;z-index:1}.name-input{flex:1;border:1px solid #d8dde7;border-radius:16px;padding:15px 16px;outline:none;background:#fff;min-width:0}.name-input:focus{border-color:#8fa6c8;box-shadow:0 0 0 4px rgba(143,166,200,.16)}
+  .primary{border:0;background:var(--ink);color:white;border-radius:16px;padding:14px 20px;font-weight:800;box-shadow:0 10px 24px rgba(36,50,74,.16)}.primary:hover{transform:translateY(-1px)}
+  .note{margin-top:15px;font-size:12px;line-height:1.55;color:var(--muted);position:relative;z-index:1}.error{color:#a24f5b;font-weight:700;font-size:13px;margin-top:8px;min-height:18px}
+
+  .exam{min-height:100vh}.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.91);backdrop-filter:blur(16px);position:sticky;top:0;z-index:30}
+  .top-left{display:flex;align-items:center;gap:12px;min-width:0}.mini-mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,#7f9dc5,#6f9b7b);display:grid;place-items:center}.mini-mark svg{width:20px}.top-title{font-weight:900;white-space:nowrap}.candidate{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top-right{display:flex;align-items:center;gap:10px}.timer{border:1px solid var(--line);border-radius:15px;padding:9px 13px;background:#fff;min-width:132px}.timer small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.09em;font-weight:800}.timer strong{font-variant-numeric:tabular-nums;font-size:19px;letter-spacing:.03em}.end-btn{border:1px solid #e0c8cc;background:#fff7f8;color:#8d4d56;border-radius:14px;padding:11px 14px;font-weight:800}
+  .exam-grid{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:calc(100vh - 76px)}.sidebar{padding:24px 20px;border-right:1px solid var(--line);background:rgba(251,252,249,.86);position:sticky;top:76px;height:calc(100vh - 76px);overflow:auto}
+  .progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:800}.progress-track{height:8px;background:#eceff3;border-radius:999px;margin:9px 0 22px;overflow:hidden}.progress-fill{height:100%;background:linear-gradient(90deg,#7fa88a,#7894bb);width:0}
+  .palette{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.qdot{aspect-ratio:1;border-radius:12px;border:1px solid #dfe3eb;background:#fff;color:var(--ink);font-weight:800;position:relative}.qdot:hover{border-color:#9aabc3}.qdot.current{outline:3px solid rgba(85,114,170,.17);border-color:#7188ad}.qdot.answered{background:#edf5ef;border-color:#b9d2bf}.qdot.flagged:after{content:"";width:7px;height:7px;border-radius:50%;position:absolute;right:4px;top:4px;background:#d48b94}
+  .legend{display:grid;gap:8px;margin-top:22px;font-size:11px;color:var(--muted)}.legend-row{display:flex;align-items:center;gap:8px}.legend-chip{width:16px;height:16px;border:1px solid #dfe3eb;border-radius:6px;background:#fff}.legend-chip.a{background:#edf5ef;border-color:#b9d2bf}.legend-chip.f{position:relative}.legend-chip.f:after{content:"";width:6px;height:6px;border-radius:50%;position:absolute;right:2px;top:2px;background:#d48b94}.side-tip{margin-top:24px;padding:13px;border-radius:15px;background:var(--butter);font-size:11px;line-height:1.5;color:#685c3f}
+  .question-area{padding:34px clamp(24px,5vw,74px) 42px;display:flex;justify-content:center}.question-wrap{width:min(900px,100%)}.q-meta{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:18px}.q-count{font-size:13px;color:var(--muted);font-weight:800}.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.tag{font-size:11px;font-weight:800;border-radius:999px;padding:7px 10px;background:var(--blue);color:#526b94}.tag.soft{background:var(--sage);color:#56765f}.qtime{text-align:right;border:1px solid var(--line);background:#fff;border-radius:14px;padding:9px 11px;min-width:118px}.qtime small{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.qtime strong{font-variant-numeric:tabular-nums}
+  .question-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 38px rgba(35,48,72,.06);padding:clamp(25px,4vw,42px)}.question-text{font-size:clamp(20px,2.2vw,27px);line-height:1.5;font-weight:760;letter-spacing:-.015em;margin:0 0 28px}.choices{display:grid;gap:12px}.choice{width:100%;border:1px solid #dfe3ea;background:#fff;border-radius:17px;padding:15px 16px;text-align:left;display:grid;grid-template-columns:42px 1fr;align-items:center;gap:12px;color:var(--ink);transition:.16s ease}.choice:hover{border-color:#9baac1;transform:translateY(-1px);box-shadow:0 7px 18px rgba(45,61,84,.05)}.choice.selected{border-color:#7893ba;background:#f1f5fb;box-shadow:0 0 0 3px rgba(120,147,186,.12)}.letter{width:34px;height:34px;border-radius:11px;border:1px solid #dce1e9;display:grid;place-items:center;font-weight:900;background:#fafbfc}.choice.selected .letter{background:#6d87ae;color:white;border-color:#6d87ae}
+  .nav-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}.nav-left,.nav-right{display:flex;gap:10px}.secondary{border:1px solid #dce1e8;background:#fff;border-radius:14px;padding:11px 15px;color:var(--ink);font-weight:800}.secondary:hover{background:#fafbfc}.flag-btn.active{background:#fff1f3;border-color:#e5bdc4;color:#9d5c65}.next{background:var(--ink);color:#fff;border-color:var(--ink)}.next:hover{background:#17243a}
+
+  .modal-backdrop{position:fixed;inset:0;background:rgba(26,35,50,.38);display:grid;place-items:center;padding:20px;z-index:80;backdrop-filter:blur(4px)}.modal{width:min(470px,100%);background:#fff;border-radius:24px;padding:28px;box-shadow:0 30px 90px rgba(20,31,48,.24)}.modal-icon{width:50px;height:50px;border-radius:16px;background:var(--rose);display:grid;place-items:center;font-size:22px}.modal h3{font-size:23px;margin:16px 0 8px}.modal p{color:var(--muted);line-height:1.55}.modal-stats{display:flex;gap:10px;margin:18px 0}.modal-stat{flex:1;border:1px solid var(--line);border-radius:14px;padding:12px}.modal-stat b{display:block}.modal-stat span{font-size:11px;color:var(--muted)}.modal-actions{display:flex;justify-content:flex-end;gap:10px}
+  .pass-input{width:100%;border:1px solid #d8dde7;border-radius:14px;padding:13px 14px;outline:none;margin-top:10px}.pass-input:focus{border-color:#8fa6c8;box-shadow:0 0 0 4px rgba(143,166,200,.16)}.pass-error{min-height:20px;color:#a24f5b;font-size:12px;font-weight:800;margin-top:7px}
+
+  .result-wrap{min-height:100vh;padding:34px 20px 60px;display:grid;place-items:start center}.result-shell{width:min(960px,100%)}.result-topnote{text-align:center;color:var(--muted);font-size:12px;margin-bottom:14px;font-weight:700}
+  .result-paper{background:#fff;border:1px solid #dfe4da;border-top:4px solid #88aa72;box-shadow:var(--shadow);min-height:555px;position:relative;overflow:hidden;padding:40px 48px 44px}.result-paper:before{content:"";position:absolute;width:320px;height:780px;background:#f1f2f1;left:-165px;top:-80px;transform:rotate(10deg)}.result-paper:after{content:"";position:absolute;left:26%;right:4%;top:282px;height:7px;background:linear-gradient(90deg,#f1f1ef,#fafafa)}.paper-inner{position:relative;z-index:2}.paper-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.paper-name{font-weight:900;font-size:17px}.practice-logo{display:flex;gap:12px;align-items:center;padding:4px 0}.practice-shield{width:58px;height:58px}.practice-logo-text b{display:block;font-size:22px;letter-spacing:.05em}.practice-logo-text span{font-size:11px;color:var(--muted);letter-spacing:.13em;font-weight:800}.paper-meta{display:grid;grid-template-columns:auto auto;justify-content:end;gap:3px 8px;margin-top:64px;font-size:13px}.paper-meta b{text-align:right}.paper-title{margin-top:18px;font-size:18px;font-weight:900}.result-status{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:10px 14px;border-radius:999px;font-weight:900;font-size:12px;letter-spacing:.06em;text-transform:uppercase}.result-status.pass{background:#e7f3e8;color:#4d7556}.result-status.fail{background:#f8e8ea;color:#96555f}.result-status i{width:8px;height:8px;border-radius:50%;background:currentColor}.result-message{margin-top:13px;max-width:800px;font-size:13px;line-height:1.55;color:#464d59}.disclaimer{margin-top:28px;padding:12px 14px;border-radius:12px;background:#f7f8fa;color:#6c7586;font-size:11px;line-height:1.5;border:1px solid #eceef2}
+  .report-box{margin-top:22px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:22px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:0 10px 30px rgba(35,48,72,.06)}.report-box h3{margin:0 0 5px;font-size:18px}.report-box p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.download-btn{border:0;border-radius:17px;background:#5f7f69;color:#fff;font-weight:900;padding:15px 20px;min-width:235px;box-shadow:0 10px 24px rgba(95,127,105,.20)}.download-btn:hover{transform:translateY(-1px)}.new-attempt{display:block;margin:16px auto 0;border:0;background:transparent;color:#7c8798;text-decoration:underline;font-size:12px}
+
+  @media(max-width:840px){.facts{grid-template-columns:repeat(2,1fr)}.set-grid{grid-template-columns:1fr}.set-card{min-height:auto}.exam-grid{grid-template-columns:1fr}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:14px 20px}.palette{grid-template-columns:repeat(10,1fr)}.legend,.side-tip{display:none}.topbar{padding:0 14px}.candidate{display:none}.timer{min-width:112px}.end-btn{padding:10px}.question-area{padding-top:24px}.result-paper{padding:28px 24px}.paper-head{flex-direction:column}.paper-meta{margin-top:30px;justify-content:start}.paper-meta b{text-align:left}.practice-logo{align-self:flex-end}.report-box{flex-direction:column;align-items:flex-start}.download-btn{width:100%}}
+  @media(max-width:540px){.start-card{padding:28px 22px}.name-row{flex-direction:column}.facts{grid-template-columns:1fr 1fr}.palette{grid-template-columns:repeat(6,1fr)}.top-title{font-size:13px}.mini-mark{display:none}.timer small{display:none}.timer{min-width:92px;padding:8px 10px}.timer strong{font-size:16px}.q-meta{align-items:stretch}.nav-row{flex-direction:column;align-items:stretch}.nav-left,.nav-right{width:100%}.nav-left button,.nav-right button{flex:1}.choice{grid-template-columns:38px 1fr}}
+</style>
+</head>
+<body>
+<div class="tiny-stars"></div>
+<div class="shell">
+
+<section id="startScreen" class="start-wrap">
+  <div class="start-card">
+    <div class="brand-row">
+      <div class="mark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M24 5 39 12v10c0 10.3-6.3 17.3-15 21-8.7-3.7-15-10.7-15-21V12L24 5Z" fill="white" opacity=".96"/><path d="M16 23.5 22 29l10-11" stroke="#6f9b7b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="eyebrow">FM Practice Lab</div><div style="font-weight:900">Three exam sets</div></div>
+    </div>
+    <h1>Choose your FM mock<br>and get started ✦</h1>
+    <p class="lede">Each set has 30 challenging Financial Mathematics questions. Mock 01 is open; Mock 02 and Mock 03 are protected. Once a passkey unlocks a set on this browser, it stays unlocked when switching between sets.</p>
+
+    <div class="facts">
+      <div class="fact"><b>30</b><span>questions per set</span></div>
+      <div class="fact"><b>3:30:00</b><span>timer per attempt</span></div>
+      <div class="fact"><b>70%</b><span>practice pass threshold</span></div>
+      <div class="fact"><b>Private</b><span>no solutions shown</span></div>
+    </div>
+
+    <div class="section-label">Select exam set</div>
+    <div id="setGrid" class="set-grid"></div>
+
+    <label class="name-label" for="studentName">Student name</label>
+    <div class="name-row">
+      <input id="studentName" class="name-input" autocomplete="name" placeholder="Type your name">
+      <button id="startBtn" class="primary">Begin 3½-hour mock →</button>
+    </div>
+    <div id="nameError" class="error"></div>
+    <p class="note">Your overall exam time and time spent on every question are tracked automatically. At submission, only a preliminary <b>pass / did-not-pass</b> result is shown. The exact score and answer key remain hidden. The downloaded PDF clearly identifies the exam set for Raymond's feedback.</p>
+  </div>
+</section>
+
+<section id="examScreen" class="exam hidden">
+  <header class="topbar">
+    <div class="top-left">
+      <div class="mini-mark"><svg viewBox="0 0 48 48" fill="none"><path d="M24 5 39 12v10c0 10.3-6.3 17.3-15 21-8.7-3.7-15-10.7-15-21V12L24 5Z" fill="white"/></svg></div>
+      <div><div id="topTitle" class="top-title">FM Mock 01</div><div id="candidateLabel" class="candidate"></div></div>
+    </div>
+    <div class="top-right">
+      <div class="timer"><small>Time remaining</small><strong id="mainTimer">03:30:00</strong></div>
+      <button id="endBtn" class="end-btn">End exam</button>
+    </div>
+  </header>
+
+  <div class="exam-grid">
+    <aside class="sidebar">
+      <div class="progress-label"><span>Answered</span><span id="answeredLabel">0 / 30</span></div>
+      <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+      <div id="palette" class="palette"></div>
+      <div class="legend"><div class="legend-row"><span class="legend-chip a"></span> Answered</div><div class="legend-row"><span class="legend-chip f"></span> Flagged for review</div></div>
+      <div class="side-tip">Tip: the question timer adds together time from every visit to that question.</div>
+    </aside>
+
+    <main class="question-area">
+      <div class="question-wrap">
+        <div class="q-meta">
+          <div><div id="qCount" class="q-count">Question 1 of 30</div><div class="tag-row"><span id="topicTag" class="tag"></span><span id="subtopicTag" class="tag soft"></span></div></div>
+          <div class="qtime"><small>Time on question</small><strong id="qTimer">00:00:00</strong></div>
+        </div>
+        <article class="question-card"><p id="questionText" class="question-text"></p><div id="choices" class="choices"></div></article>
+        <div class="nav-row">
+          <div class="nav-left"><button id="prevBtn" class="secondary">← Previous</button><button id="flagBtn" class="secondary flag-btn">☆ Flag</button></div>
+          <div class="nav-right"><button id="nextBtn" class="secondary next">Next →</button></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<section id="resultScreen" class="result-wrap hidden">
+  <div class="result-shell">
+    <div class="result-topnote">Practice mock result · not an official SOA score report</div>
+    <div class="result-paper">
+      <div class="paper-inner">
+        <div class="paper-head">
+          <div id="resultName" class="paper-name"></div>
+          <div class="practice-logo">
+            <svg class="practice-shield" viewBox="0 0 70 70" fill="none" aria-hidden="true"><path d="M35 5 60 16v17c0 17-10.5 28.5-25 34C20.5 61.5 10 50 10 33V16L35 5Z" fill="#e7eefc"/><path d="M35 12 53 20v13c0 12.5-7.1 21.4-18 26-10.9-4.6-18-13.5-18-26V20l18-8Z" fill="#6f89ad"/><path d="m25 35 7 7 14-16" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="practice-logo-text"><b>FM PRACTICE</b><span>PRELIMINARY RESULT</span></div>
+          </div>
+        </div>
+        <div id="resultMeta" class="paper-meta"></div>
+        <div class="paper-title">Financial Mathematics</div>
+        <div id="resultStatus" class="result-status"><i></i><span></span></div>
+        <div id="resultMessage" class="result-message"></div>
+        <div class="disclaimer">This page is a practice simulation only and is not issued by, affiliated with, or a substitute for an official Society of Actuaries examination result. Your exact score and the correct answers are intentionally not displayed.</div>
+      </div>
+    </div>
+    <div class="report-box">
+      <div><h3>Send your attempt to Raymond 📄</h3><p>Download a PDF containing your selected answer and time spent for every question. The <b>exam set is printed prominently on every page</b>. It does not contain the answer key or your numerical score.</p></div>
+      <button id="downloadBtn" class="download-btn">Download attempt PDF ↓</button>
+    </div>
+    <button id="newAttemptBtn" class="new-attempt">Choose another / start a fresh attempt</button>
+  </div>
+</section>
+
+<div id="submitModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-icon">✦</div><h3>End this exam session?</h3>
+    <p>Once submitted, your answers are locked for this attempt. Your preliminary result will appear next.</p>
+    <div class="modal-stats"><div class="modal-stat"><b id="modalAnswered">0 / 30</b><span>answered</span></div><div class="modal-stat"><b id="modalRemaining">03:30:00</b><span>time remaining</span></div></div>
+    <div class="modal-actions"><button id="keepWorkingBtn" class="secondary">Keep working</button><button id="confirmSubmitBtn" class="primary">Yes, submit</button></div>
+  </div>
+</div>
+
+<div id="passModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-icon">🔒</div><h3 id="passTitle">Unlock exam set</h3>
+    <p id="passCopy">Enter the passkey provided by Raymond.</p>
+    <input id="passInput" class="pass-input" type="password" inputmode="numeric" autocomplete="off" placeholder="Passkey">
+    <div id="passError" class="pass-error"></div>
+    <div class="modal-actions"><button id="cancelPassBtn" class="secondary">Cancel</button><button id="unlockBtn" class="primary">Unlock & select</button></div>
+  </div>
+</div>
+</div>
+
+<script>
+const EXAM_SETS = {"1": {"label": "Mock 01", "name": "Hard Question Drill", "difficulty": "Challenging", "locked": false, "questions": [{"id": 1, "topic": "Interest Theory", "subtopic": "Varying force", "question": "A deposit A at time 0 and a deposit of 2,000 at time 2 have the same accumulated value at time 5. The force of interest is δ(t)=0.04+0.01t for 0≤t≤3, then 5% effective annually for years 3 to 5. Find A.", "choices": {"A": "1,720", "B": "1,810", "C": "1,902", "D": "2,105", "E": "2,210"}}, {"id": 2, "topic": "Interest Theory", "subtopic": "Piecewise accumulation", "question": "3,000 is invested at nominal annual interest 6% convertible monthly for 18 months. After that, it earns force of interest δ=0.045. How many additional years after month 18 are needed for the fund to reach 4,000?", "choices": {"A": "3.84", "B": "4.40", "C": "4.88", "D": "5.33", "E": "5.92"}}, {"id": 3, "topic": "Annuities", "subtopic": "Nominal discount", "question": "Find the present value of quarterly payments of 500 for 10 years, first payment at the end of the first quarter. The nominal annual discount rate convertible quarterly is 8%.", "choices": {"A": "12,880", "B": "13,203", "C": "13,580", "D": "14,031", "E": "14,462"}}, {"id": 4, "topic": "Annuities", "subtopic": "Deferred step payments", "question": "At 5% effective annual interest, calculate the present value of payments of 1,000 at times 3 through 12, followed by payments of 2,000 at times 13 through 17.", "choices": {"A": "10,921", "B": "11,825", "C": "12,370", "D": "13,044", "E": "13,615"}}, {"id": 5, "topic": "Annuities", "subtopic": "Arithmetic increasing", "question": "An annuity-immediate pays 100 at time 1, 120 at time 2, 140 at time 3, and continues increasing by 20 each year through time 15. Interest is 4% effective. Find the present value.", "choices": {"A": "2,269", "B": "2,407", "C": "2,507", "D": "2,642", "E": "2,801"}}, {"id": 6, "topic": "Annuities", "subtopic": "Geometric increasing", "question": "Payments are made annually for 12 years. The first payment is 1,000 at time 1 and each payment increases by 3%. The effective annual interest rate is 5%. Find the present value.", "choices": {"A": "9,812", "B": "10,304", "C": "10,850", "D": "11,247", "E": "11,699"}}, {"id": 7, "topic": "Annuities", "subtopic": "Deferred increasing perpetuity", "question": "Starting at time 6, a perpetuity-immediate pays 1,000, then increases by 100 each year forever. At 6% effective annual interest, find the present value at time 0.", "choices": {"A": "29,606", "B": "31,440", "C": "33,211", "D": "35,980", "E": "38,889"}}, {"id": 8, "topic": "Annuities", "subtopic": "Continuous payments", "question": "A continuous annuity pays at rate 1,000+100t per year from t=0 to t=5. The force of interest is constant at 4%. Find its present value.", "choices": {"A": "5,201", "B": "5,421", "C": "5,627", "D": "5,903", "E": "6,188"}}, {"id": 9, "topic": "Loans", "subtopic": "Balloon loan", "question": "A 50,000 loan is repaid with 10 level annual payments plus a 5,000 balloon payment at time 10. The effective annual interest rate is 6%. Find each level payment.", "choices": {"A": "5,986", "B": "6,214", "C": "6,414", "D": "6,719", "E": "7,063"}}, {"id": 10, "topic": "Loans", "subtopic": "Mortgage balance", "question": "A 300,000 mortgage is repaid monthly over 30 years at nominal annual interest 6% convertible monthly. Find the outstanding balance immediately after the 120th payment.", "choices": {"A": "231,440", "B": "241,882", "C": "251,057", "D": "263,390", "E": "270,901"}}, {"id": 11, "topic": "Loans", "subtopic": "Missed payment", "question": "A 20,000 loan is scheduled to be repaid by 5 level annual payments at 7%. The borrower misses the 3rd payment. They will make equal extra payments X at times 4 and 5, in addition to the scheduled payments. Find X.", "choices": {"A": "2,498", "B": "2,698", "C": "2,877", "D": "3,015", "E": "3,246"}}, {"id": 12, "topic": "Loans", "subtopic": "Sinking fund", "question": "A borrower takes a 100,000 interest-only loan at 8% and sets up a sinking fund earning 5% to repay the principal in 15 years. Annual interest and sinking fund deposits are paid at each year-end. Find the total annual outlay.", "choices": {"A": "11,882", "B": "12,634", "C": "13,071", "D": "13,782", "E": "14,229"}}, {"id": 13, "topic": "Loans", "subtopic": "Level principal", "question": "A 60,000 loan is repaid over 12 years by equal principal repayments plus interest at 5.5% on the outstanding balance. Find the total payment at the end of year 7.", "choices": {"A": "6,375", "B": "6,500", "C": "6,650", "D": "6,875", "E": "7,150"}}, {"id": 14, "topic": "Bonds", "subtopic": "Bond price", "question": "A 1,000 par bond has 12 years to maturity and coupons at nominal annual rate 8% payable semiannually. The yield rate is nominal annual 6% convertible semiannually. Find the bond price.", "choices": {"A": "1,083", "B": "1,130", "C": "1,169", "D": "1,205", "E": "1,247"}}, {"id": 15, "topic": "Bonds", "subtopic": "Yield rate", "question": "A 10-year 1,000 par bond pays annual coupons at 5% and sells for 920. Find the annual effective yield to maturity.", "choices": {"A": "5.44%", "B": "5.82%", "C": "6.09%", "D": "6.38%", "E": "6.74%"}}, {"id": 16, "topic": "Bonds", "subtopic": "Book value", "question": "A 6-year 1,000 bond pays annual coupons at 4% and is bought to yield 6%. Find the book value immediately after the 3rd coupon.", "choices": {"A": "925.32", "B": "946.54", "C": "959.18", "D": "971.05", "E": "984.66"}}, {"id": 17, "topic": "Bonds", "subtopic": "Callable bond", "question": "A 15-year 1,000 par bond pays annual coupons at 7%. It is callable for 1,050 at the end of years 8 through 14, or redeemable for 1,000 at maturity. What is the maximum price to guarantee the investor at least 5% yield?", "choices": {"A": "1,144", "B": "1,163", "C": "1,188", "D": "1,208", "E": "1,223"}}, {"id": 18, "topic": "Duration", "subtopic": "Macaulay duration", "question": "A 5-year 1,000 par bond pays annual coupons at 6%. The yield rate is 4% effective annual. Find the Macaulay duration.", "choices": {"A": "4.16", "B": "4.33", "C": "4.49", "D": "4.62", "E": "4.77"}}, {"id": 19, "topic": "Duration", "subtopic": "Convexity approximation", "question": "A 4-year zero-coupon bond is priced using a 5% annual effective yield. Estimate the percentage price change if the yield increases by 100 basis points, using duration plus convexity.", "choices": {"A": "−3.54%", "B": "−3.72%", "C": "−3.91%", "D": "−4.03%", "E": "−4.20%"}}, {"id": 20, "topic": "Immunization", "subtopic": "Two zero-coupon bonds", "question": "A liability of 10,000 is due at time 5. At 4% effective interest, immunize it using zero-coupon bonds maturing at times 3 and 7. Find the maturity amount of the time-3 zero-coupon bond.", "choices": {"A": "4,276", "B": "4,623", "C": "4,808", "D": "5,000", "E": "5,408"}}, {"id": 21, "topic": "Immunization", "subtopic": "Portfolio allocation", "question": "A 20,000 liability is due at time 6. Using 2-year and 10-year zero-coupon bonds at 5% effective interest, match present value and duration. How much market value should be invested in the 2-year zero?", "choices": {"A": "6,819", "B": "7,462", "C": "8,116", "D": "9,950", "E": "10,000"}}, {"id": 22, "topic": "General Cash Flows", "subtopic": "Irr", "question": "An investment costs 1,200 now and pays 300 at time 1, 500 at time 2, and 800 at time 4. Find the annual effective yield rate.", "choices": {"A": "8.64%", "B": "10.15%", "C": "11.11%", "D": "12.08%", "E": "13.45%"}}, {"id": 23, "topic": "Derivatives", "subtopic": "Stock forward with dividends", "question": "A stock is priced at 80. A 1.5-year forward contract is written. The annual effective risk-free rate is 5%. The stock will pay dividends of 2 at time 0.5 and 2.5 at time 1. Find the forward price.", "choices": {"A": "79.66", "B": "80.24", "C": "81.41", "D": "82.18", "E": "84.02"}}, {"id": 24, "topic": "Derivatives", "subtopic": "Index forward", "question": "An index is 2,400. The continuously compounded risk-free rate is 4% and the continuous dividend yield is 1.5%. Find the 9-month forward price.", "choices": {"A": "2,422", "B": "2,445", "C": "2,461", "D": "2,488", "E": "2,512"}}, {"id": 25, "topic": "Derivatives", "subtopic": "Futures margin", "question": "An investor goes long 5 futures contracts. Contract size is 1,000. Initial futures price is 101.20. Initial margin is 2,000 per contract and maintenance margin is 1,500 per contract. Settlement prices over the next 3 days are 100.90, 101.50, and 99.90. What margin call is required at the end of day 3?", "choices": {"A": "0", "B": "3,500", "C": "4,000", "D": "6,500", "E": "8,000"}}, {"id": 26, "topic": "Derivatives", "subtopic": "FRA payoff", "question": "A company has a long FRA on a 6-month loan with notional 1,000,000 and contract rate 4.8%. At settlement, the 6-month rate is 5.6%. Find the payoff at settlement.", "choices": {"A": "3,704", "B": "3,891", "C": "4,000", "D": "4,118", "E": "4,276"}}, {"id": 27, "topic": "Derivatives", "subtopic": "Swap fixed rate", "question": "A 3-year annual-pay interest rate swap is initiated. Annual effective spot rates for terms 1, 2, and 3 are 4%, 4.5%, and 5%. Find the par fixed swap rate.", "choices": {"A": "4.61%", "B": "4.79%", "C": "4.97%", "D": "5.13%", "E": "5.31%"}}, {"id": 28, "topic": "Derivatives", "subtopic": "Swap value", "question": "One year after entering a 3-year annual-pay receiver-fixed swap, the fixed rate is 5% and notional is 1,000,000. Just after the reset date, two payments remain. Current 1-year and 2-year spot rates are 4% and 4.2%. Find the value to the fixed-rate receiver.", "choices": {"A": "−15,138", "B": "−4,921", "C": "0", "D": "9,774", "E": "15,138"}}, {"id": 29, "topic": "Derivatives", "subtopic": "Put-call parity", "question": "A non-dividend-paying stock is priced at 100. A 1-year European call with strike 95 costs 12. The annual effective risk-free rate is 4%. Find the price of the corresponding European put.", "choices": {"A": "1.35", "B": "2.64", "C": "3.35", "D": "4.12", "E": "5.00"}}, {"id": 30, "topic": "Derivatives", "subtopic": "Binomial option pricing", "question": "In a 2-period binomial model, S₀=100, u=1.20, d=0.85, and the per-period risk-free accumulation factor is 1.05. Find the price of a 2-period European call with strike 100.", "choices": {"A": "10.88", "B": "12.46", "C": "13.92", "D": "15.31", "E": "17.04"}}], "answerHashes": [845684842, 107339859, 3714564259, 739207969, 4190355161, 1888666407, 4009273975, 2583614122, 3363011053, 3295415613, 3684374725, 3865923064, 3106987816, 1220406113, 823889950, 3646555516, 3800770415, 2568298373, 155796557, 2296845581, 3856353274, 3389388976, 3091183795, 3067399601, 4205346536, 286494391, 3893718791, 1860178796, 675463165, 3135345207]}, "2": {"label": "Mock 02", "name": "Very Hard Question Drill 02", "difficulty": "Very hard", "locked": true, "questions": [{"id": 1, "topic": "Interest Theory", "subtopic": "Nominal Discount + Force", "question": "7,500 is invested for 5 years under force of interest δ(t)=0.03+0.002t. It then earns nominal annual discount 6% convertible quarterly for 3 more years. Find the value at time 8.", "choices": {"A": "10,211", "B": "10,711", "C": "11,102", "D": "11,450", "E": "12,032"}}, {"id": 2, "topic": "Interest Theory", "subtopic": "Unknown Final Rate", "question": "A fund grows from 10,000 to 14,500 over 7 years. First 2 years earn nominal interest 5% convertible monthly. Next 3 years earn force δ(t)=0.04+0.003t, where t is measured from the start of those 3 years. The final 2 years earn annual effective rate i. Find i.", "choices": {"A": "5.94%", "B": "6.43%", "C": "6.88%", "D": "7.16%", "E": "7.82%"}}, {"id": 3, "topic": "Interest Theory", "subtopic": "Equation Of Value", "question": "Payments of 1,000 at time 1, 1,500 at time 4, and X at time 6 accumulate to 5,000 at time 8. The force is δ(t)=0.02+0.004t until time 5, then annual effective interest is 6%. Find X.", "choices": {"A": "1,278", "B": "1,421", "C": "1,594", "D": "1,766", "E": "1,914"}}, {"id": 4, "topic": "Annuities", "subtopic": "Non-Level Annual Payments", "question": "Annual payments are made at the end of each year for 20 years. Payments are 1,000, 1,100, …, 1,900 in years 1–10, then 2,000, 1,950, …, 1,550 in years 11–20. At annual effective interest 5%, find the present value.", "choices": {"A": "17,842", "B": "18,511", "C": "18,947", "D": "19,396", "E": "20,108"}}, {"id": 5, "topic": "Annuities", "subtopic": "Continuous Growing Annuity", "question": "A continuous annuity pays at rate 2,000e^{0.02t} per year from t=5 to t=15. The force of interest is constant at 5%. Find its present value at time 0.", "choices": {"A": "13,724", "B": "14,872", "C": "15,405", "D": "16,018", "E": "16,742"}}, {"id": 6, "topic": "Annuities", "subtopic": "Deferred Growing Perpetuity", "question": "A perpetuity pays every 2 years. The first payment is 1,000 at time 3, and each later payment is 3% larger than the previous payment. The annual effective interest rate is 6%. Find the present value.", "choices": {"A": "8,924", "B": "9,476", "C": "10,079", "D": "10,842", "E": "11,396"}}, {"id": 7, "topic": "Annuities", "subtopic": "Monthly Geometric Annuity", "question": "Monthly payments are made for 15 years. The first payment is 500 one month from now. Each later payment is 0.2% larger than the previous monthly payment. The annual effective interest rate is 6%. Find the present value.", "choices": {"A": "63,804", "B": "66,217", "C": "68,942", "D": "70,119", "E": "72,506"}}, {"id": 8, "topic": "Loans", "subtopic": "Interest-Only Then Amortizing", "question": "A 100,000 loan requires interest-only payments for 3 years at 5% annual effective. After that, the outstanding balance is amortized with 12 level annual payments at 6% annual effective. Find each level amortizing payment.", "choices": {"A": "10,834", "B": "11,402", "C": "11,928", "D": "12,506", "E": "13,019"}}, {"id": 9, "topic": "Loans", "subtopic": "Recast After Extra Payment", "question": "A 200,000 mortgage is repaid monthly over 30 years at nominal annual interest 4.8% convertible monthly. Immediately after the 60th payment, the borrower makes an extra principal payment of 20,000 and recasts the loan over the remaining 300 months at the same rate. Find the new monthly payment.", "choices": {"A": "891.42", "B": "934.73", "C": "972.56", "D": "1,006.18", "E": "1,049.33"}}, {"id": 10, "topic": "Loans", "subtopic": "Sinking Fund Method", "question": "A borrower takes a 50,000 loan. Each year, the borrower pays interest to the lender at 7% and also deposits into a sinking fund earning 5% so that the fund repays the principal at the end of year 10. Find the total annual outlay.", "choices": {"A": "6,926", "B": "7,221", "C": "7,356", "D": "7,475", "E": "7,711"}}, {"id": 11, "topic": "Bonds", "subtopic": "Spot-Rate Bond Pricing", "question": "A 5-year 1,000 par bond pays annual coupons at 6%. Annual effective spot rates for years 1–5 are 3.0%, 3.4%, 3.8%, 4.2%, and 4.6%. Find the bond price.", "choices": {"A": "1,021.76", "B": "1,047.92", "C": "1,065.46", "D": "1,084.17", "E": "1,103.28"}}, {"id": 12, "topic": "Bonds", "subtopic": "Yield With Redemption Premium", "question": "An 8-year 1,000 par bond pays annual coupons at 5%, is redeemable at 1,050, and sells for 930. Find the annual effective yield to maturity.", "choices": {"A": "6.22%", "B": "6.65%", "C": "7.04%", "D": "7.38%", "E": "7.91%"}}, {"id": 13, "topic": "Bonds", "subtopic": "Book Value And Sale Gain", "question": "A 10-year 1,000 par bond pays annual coupons at 4% and is purchased to yield 6%. Immediately after the 4th coupon, it is sold for 940. Find the gain or loss relative to book value at that time.", "choices": {"A": "32.18 loss", "B": "14.67 loss", "C": "0.00", "D": "38.35 gain", "E": "52.91 gain"}}, {"id": 14, "topic": "Bonds", "subtopic": "Callable Bond Yield-To-Worst", "question": "A 12-year 1,000 par bond pays annual coupons at 8% and is bought for 1,120. It is callable for 1,030 at the end of years 5–11 or redeemable for 1,000 at maturity. Find the lowest yield the investor could receive.", "choices": {"A": "5.38%", "B": "5.71%", "C": "6.03%", "D": "6.27%", "E": "6.53%"}}, {"id": 15, "topic": "Duration & Immunization", "subtopic": "Modified Duration Of Irregular Cash Flows", "question": "A cash-flow stream pays 150 at time 1, 150 at time 3, and 1,150 at time 7. At annual effective yield 5.5%, find the modified duration.", "choices": {"A": "4.932", "B": "5.184", "C": "5.416", "D": "5.714", "E": "6.027"}}, {"id": 16, "topic": "Duration & Immunization", "subtopic": "Duration-Convexity Estimate", "question": "A bond portfolio has value 2,500,000, modified duration 8.4, and convexity 96. Estimate the change in value if yields decrease by 60 basis points.", "choices": {"A": "−126,320", "B": "−120,720", "C": "+120,720", "D": "+130,320", "E": "+144,000"}}, {"id": 17, "topic": "Duration & Immunization", "subtopic": "Two-Zero Immunization", "question": "A liability of 10,000 is due at time 7. At annual effective yield 5%, immunize it using zero-coupon bonds maturing at times 3 and 12. Find the present amount invested in the time-3 zero and the time-12 zero.", "choices": {"A": "3,159 and 3,948", "B": "3,553 and 3,553", "C": "3,948 and 3,159", "D": "4,263 and 2,844", "E": "4,737 and 2,370"}}, {"id": 18, "topic": "Duration & Immunization", "subtopic": "Immunization + Convexity Check", "question": "At yield 5%, a liability pays 7,000 at time 4 and 12,000 at time 10. Assets are zero-coupon bonds maturing at times 3 and 12. Find the present investments that match PV and duration, and state whether asset convexity exceeds liability convexity.", "choices": {"A": "6,370 at t=3; 6,756 at t=12; yes", "B": "6,756 at t=3; 6,370 at t=12; yes", "C": "6,756 at t=3; 6,370 at t=12; no", "D": "5,950 at t=3; 7,176 at t=12; yes", "E": "7,106 at t=3; 6,020 at t=12; no"}}, {"id": 19, "topic": "Forwards / Yield Curves", "subtopic": "Forward Price Of A Zero", "question": "A 5-year zero-coupon bond with maturity value 1,000 will be delivered at time 2. Current annual effective spot rates are s₂=3.3% and s₇=4.6%. Find the time-2 forward delivery price.", "choices": {"A": "729.92", "B": "752.40", "C": "765.18", "D": "778.89", "E": "804.31"}}, {"id": 20, "topic": "Forwards / Yield Curves", "subtopic": "Equity Forward With Nominal Discount", "question": "A stock price is 80. It pays dividends of 1.50 in 3 months and 1.50 in 6 months. The 9-month risk-free rate is nominal annual discount 8% convertible quarterly. Find the 9-month forward price.", "choices": {"A": "78.62", "B": "80.44", "C": "81.91", "D": "83.28", "E": "84.77"}}, {"id": 21, "topic": "Forwards / Yield Curves", "subtopic": "Forward Contract Value", "question": "Six months ago, an investor entered a 1-year forward contract to buy a non-dividend-paying stock for 98. Today the stock price is 105. The annual effective risk-free rate for the remaining 6 months is 4%. Find the value of the contract to the long.", "choices": {"A": "5.12", "B": "6.48", "C": "7.35", "D": "8.02", "E": "8.90"}}, {"id": 22, "topic": "Forwards / Yield Curves", "subtopic": "Swap Value", "question": "Immediately after a swap payment date, a fixed-rate payer has 3 annual payments remaining on a swap with notional 2,000,000 and fixed rate 4.5%. Current annual spot rates for 1, 2, and 3 years are 3.8%, 4.0%, and 4.1%. Find the value to the fixed-rate payer.", "choices": {"A": "−22,568", "B": "−12,104", "C": "0", "D": "12,104", "E": "22,568"}}, {"id": 23, "topic": "Options & Derivatives", "subtopic": "Put-Call Parity With Dividends", "question": "A stock is priced at 50. A 1-year European call with strike 48 costs 6. The annual effective risk-free rate is 5%. The present value of dividends during the year is 2. Find the price of the corresponding European put.", "choices": {"A": "1.71", "B": "2.29", "C": "3.71", "D": "4.86", "E": "5.24"}}, {"id": 24, "topic": "Options & Derivatives", "subtopic": "Bear Put Spread", "question": "An investor buys a European put with strike 110 for 13 and sells a European put with strike 95 for 5. Find the break-even stock price at expiration.", "choices": {"A": "95", "B": "102", "C": "105", "D": "108", "E": "110"}}, {"id": 25, "topic": "Options & Derivatives", "subtopic": "Parity Mispricing", "question": "A stock is priced at 100. A 1-year European call and put both have strike 100. The annual effective risk-free rate is 5%, and the present value of dividends is 3. The call costs 9 and the put costs 5. By how much is put-call parity mispriced, and which side is expensive?", "choices": {"A": "0.95; put + stock side expensive", "B": "1.24; call + bond + dividends side expensive", "C": "1.76; put + stock side expensive", "D": "2.24; call + bond + dividends side expensive", "E": "3.00; call + bond + dividends side expensive"}}, {"id": 26, "topic": "Options & Derivatives", "subtopic": "American Put Binomial", "question": "In a 2-period binomial model, S₀=50, u=1.25, d=0.80, and the per-period risk-free accumulation factor is 1.03. Find the price of a 2-period American put with strike 52.", "choices": {"A": "6.17", "B": "6.82", "C": "7.44", "D": "8.10", "E": "8.76"}}, {"id": 27, "topic": "Options & Derivatives", "subtopic": "Collar Payoff", "question": "An investor buys a stock for 100, buys a 90-strike put for 2.50, and sells a 110-strike call for 3.80. Find the maximum possible profit at expiration.", "choices": {"A": "8.70", "B": "9.50", "C": "10.00", "D": "10.80", "E": "11.30"}}, {"id": 28, "topic": "Options & Derivatives", "subtopic": "Caplet Payoff Value", "question": "A 6-month caplet has notional 5,000,000 and strike 4%. At reset, the 6-month reference rate is 5.2%. The caplet payoff is made at the end of the 6-month period and is discounted at 2% for the period. Find the value at reset.", "choices": {"A": "24,752", "B": "29,703", "C": "30,000", "D": "34,951", "E": "59,406"}}, {"id": 29, "topic": "Options & Derivatives", "subtopic": "Futures Duration Hedge", "question": "A bond portfolio is worth 4,000,000 and has modified duration 6.8. A Treasury bond futures contract has price 112,000 and duration 7.5. How many contracts should be used to reduce the portfolio duration to 2.0?", "choices": {"A": "Buy 17 contracts", "B": "Buy 23 contracts", "C": "Sell 23 contracts", "D": "Sell 32 contracts", "E": "Sell 41 contracts"}}, {"id": 30, "topic": "Forwards / Yield Curves", "subtopic": "Par Swap Rate From Spot Rates", "question": "Annual effective spot rates for years 1–4 are 3.2%, 3.5%, 3.9%, and 4.1%. Find the 4-year annual-pay par swap fixed rate.", "choices": {"A": "3.84%", "B": "3.96%", "C": "4.02%", "D": "4.073%", "E": "4.19%"}}], "answerHashes": [4031410563, 594769612, 2488377602, 2837800274, 3607303639, 3798670217, 814563011, 3752336811, 2292647643, 2417332903, 3578020533, 226493779, 496502662, 858361889, 14541785, 2845539965, 4128427895, 1721736437, 3657449204, 2871161901, 1868721180, 33924965, 535198872, 2600016934, 100847275, 765413513, 622818666, 975688618, 1282624914, 2609704041]}, "3": {"label": "Mock 03", "name": "Very Hard Question Drill 03", "difficulty": "Very hard", "locked": true, "questions": [{"id": 1, "topic": "Interest Theory", "subtopic": "Unknown Force Coefficient", "question": "A deposit of 4,000 at time 0 accumulates under force of interest δ(t)=0.025+kt for 0≤t≤4. A separate deposit of 5,000 at time 1 earns 4% effective annually to time 4. If both accumulated values at time 4 are equal, find k.", "choices": {"A": "0.0248", "B": "0.0275", "C": "0.0301", "D": "0.0329", "E": "0.0365"}}, {"id": 2, "topic": "Interest Theory", "subtopic": "Withdrawals Under Piecewise Interest", "question": "A fund receives X at time 0, pays out 2,000 at time 2, receives 1,500 at time 4, and is worth 10,000 at time 6. From time 0 to 3, δ(t)=0.05+0.01t. From time 3 to 6, the annual effective interest rate is 5.5%. Find X.", "choices": {"A": "7,438", "B": "7,611", "C": "7,848", "D": "8,160", "E": "7,226"}}, {"id": 3, "topic": "Interest Theory", "subtopic": "Money-Weighted Return", "question": "A fund starts the year with 100,000. An additional 20,000 is deposited at time 0.40, and 10,000 is withdrawn at time 0.75. The fund ends the year with 118,000. Using exact timing, find the annual money-weighted rate of return.", "choices": {"A": "6.42%", "B": "8.04%", "C": "5.89%", "D": "7.31%", "E": "8.71%"}}, {"id": 4, "topic": "Annuities", "subtopic": "Monthly Arithmetic Annuity", "question": "Monthly payments are made at the end of each month for 5 years. The first payment is 100, and each later payment is 5 more than the previous payment. The nominal annual interest rate is 6% convertible monthly. Find the present value.", "choices": {"A": "11,780", "B": "13,120", "C": "12,416", "D": "12,792", "E": "12,105"}}, {"id": 5, "topic": "Annuities", "subtopic": "Skipped Payment Accumulation", "question": "At 4.5% effective annual interest, payments of 1,000 are made at times 1 through 5. No payment is made at time 6. Payments of 1,500 are then made at times 7 through 15. Find the accumulated value at time 15.", "choices": {"A": "24,699", "B": "23,591", "C": "25,942", "D": "24,120", "E": "25,288"}}, {"id": 6, "topic": "Annuities", "subtopic": "Deferred Growing Perpetuity", "question": "A perpetuity pays quarterly. The first payment of 400 is made at time 2.25 years, and each later payment is 0.5% larger than the previous payment. Interest is nominal annual 5.2% convertible quarterly. Find the present value at time 0.", "choices": {"A": "42,380", "B": "45,091", "C": "38,624", "D": "48,971", "E": "51,640"}}, {"id": 7, "topic": "Annuities", "subtopic": "Continuous Payment With Piecewise Force", "question": "A continuous annuity pays at rate 1,200+80t per year from t=0 to t=8. The force of interest is 3% for 0≤t≤4. For 4<t≤8, δ(t)=0.035+0.002(t−4). Find the present value.", "choices": {"A": "10,211", "B": "11,085", "C": "9,864", "D": "10,634", "E": "11,502"}}, {"id": 8, "topic": "Loans", "subtopic": "Outstanding Balance With Extra Payments", "question": "A 200,000 mortgage is amortized over 20 years with monthly payments at nominal annual interest 5.4% convertible monthly. The borrower also pays an extra 500 immediately after the 60th payment and immediately after the 120th payment. Find the outstanding balance immediately after the 120th payment and extra payment.", "choices": {"A": "124,614", "B": "127,481", "C": "125,152", "D": "123,930", "E": "126,001"}}, {"id": 9, "topic": "Loans", "subtopic": "Yield To Lender With Fee", "question": "A lender advances 80,000 and charges an origination fee of 1,200 at loan issue. The borrower makes 10 annual payments of 10,500. Find the lender’s annual effective yield rate.", "choices": {"A": "5.59%", "B": "5.12%", "C": "6.14%", "D": "5.87%", "E": "5.36%"}}, {"id": 10, "topic": "Loans", "subtopic": "Refinancing After Level Principal Payments", "question": "A 120,000 loan is repaid over 12 years using level principal repayments with annual interest of 6.8% on the outstanding balance. Immediately after the 5th payment, the remaining balance is refinanced over 10 years at 5.5% effective with level annual payments. Find the new annual payment.", "choices": {"A": "8,872", "B": "9,075", "C": "9,704", "D": "9,287", "E": "9,481"}}, {"id": 11, "topic": "Loans", "subtopic": "Sinking Fund Repayment", "question": "A borrower takes a 100,000 interest-only loan for 10 years at 7% effective annual interest. To repay the principal at maturity, the borrower deposits X at the end of each year into a sinking fund earning 4.5% effective annual interest. Find X.", "choices": {"A": "7,846", "B": "8,138", "C": "8,421", "D": "8,796", "E": "7,420"}}, {"id": 12, "topic": "Bonds", "subtopic": "Non-Par Redemption", "question": "A 7-year 1,000 par bond pays coupons semiannually at an annual coupon rate of 5.5%. It is redeemable for 1,080 at maturity. The yield rate is nominal annual 6.2% convertible semiannually. Find the price.", "choices": {"A": "996", "B": "1,036", "C": "971", "D": "1,062", "E": "1,013"}}, {"id": 13, "topic": "Bonds", "subtopic": "Realized Yield With Reinvested Coupons", "question": "A 1,000 par bond with annual coupons at 6% is bought for 960. The investor holds it for 5 years, reinvests coupons at 4% effective, and sells the bond immediately after the 5th coupon for 980. Find the annual effective realized yield over the 5-year holding period.", "choices": {"A": "5.64%", "B": "7.18%", "C": "6.33%", "D": "6.71%", "E": "6.04%"}}, {"id": 14, "topic": "Bonds", "subtopic": "Callable Bond With Tiered Call Prices", "question": "A 12-year 1,000 par bond pays annual coupons at 7.5%. It is callable for 1,060 at the end of years 6–8, callable for 1,030 at the end of years 9–11, and redeemable for 1,000 at maturity. Find the maximum purchase price to guarantee the investor at least 5.8% yield.", "choices": {"A": "1,127", "B": "1,116", "C": "1,144", "D": "1,152", "E": "1,102"}}, {"id": 15, "topic": "Duration", "subtopic": "Macaulay Duration Of Cash Flows", "question": "At an annual effective yield rate of 5%, an investment pays 100 at time 1, 200 at time 2, and 1,200 at time 3. Find the Macaulay duration.", "choices": {"A": "2.51", "B": "2.94", "C": "2.62", "D": "2.72", "E": "2.83"}}, {"id": 16, "topic": "Duration / Immunization", "subtopic": "Zero-Coupon Duration Matching", "question": "A liability of 500,000 is due in 7 years. It will be matched using 3-year and 10-year zero-coupon bonds. The annual effective spot rate for both maturities is 5%. Using duration matching, find the face amount of the 10-year zero-coupon bond.", "choices": {"A": "312,900", "B": "355,341", "C": "330,750", "D": "386,020", "E": "290,120"}}, {"id": 17, "topic": "Duration / Immunization", "subtopic": "Pv And Duration Matching", "question": "Liabilities are 80,000 at time 4 and 120,000 at time 9. Assets are 3-year and 10-year zero-coupon bonds. At 5% effective annual interest, find the face amount of the 10-year zero-coupon bond needed to match present value and Macaulay duration.", "choices": {"A": "116,280", "B": "123,315", "C": "130,880", "D": "143,169", "E": "108,940"}}, {"id": 18, "topic": "Yield Curves", "subtopic": "Bootstrapping Spot Rates", "question": "Annual-pay par yields for 1-year, 2-year, and 3-year bonds are 3.0%, 3.4%, and 3.8%, respectively. Each bond has par value 1 and is priced at par. Find the 3-year annual effective spot rate.", "choices": {"A": "3.75%", "B": "4.03%", "C": "3.65%", "D": "3.91%", "E": "3.82%"}}, {"id": 19, "topic": "Yield Curves", "subtopic": "Pricing With A Forward Rate", "question": "Annual effective spot rates are s₁=3.0% and s₂=3.4%. The 1-year forward rate from time 2 to time 3 is 4.5%. Find the price of a 3-year 1,000 par bond with annual coupons at 5%.", "choices": {"A": "1,035", "B": "1,021", "C": "1,069", "D": "1,006", "E": "1,051"}}, {"id": 20, "topic": "Forwards", "subtopic": "Forward Price With Discrete Dividends", "question": "A stock is priced at 80. It will pay dividends of 1.50 at times 0.25, 0.50, and 0.75. The annual effective risk-free rate is 5%. Find the no-arbitrage 1-year forward price.", "choices": {"A": "80.32", "B": "77.20", "C": "81.74", "D": "79.39", "E": "78.16"}}, {"id": 21, "topic": "Options", "subtopic": "Lower Bound With Dividends", "question": "A stock is priced at 100 and will pay dividends with present value 3 before a 1-year option expires. A 1-year European call has strike 95. The annual effective risk-free rate is 4%. Find the arbitrage-free lower bound for the call price.", "choices": {"A": "7.85", "B": "2.15", "C": "5.65", "D": "8.80", "E": "4.30"}}, {"id": 22, "topic": "Options", "subtopic": "Synthetic Forward From Call-Put Parity", "question": "A 2-year European call with strike 100 costs 14, and the corresponding put costs 7. The annual effective risk-free rate is 5%. Assuming no dividends, find the 2-year forward price implied by put-call parity.", "choices": {"A": "104.35", "B": "107.72", "C": "109.00", "D": "111.03", "E": "106.50"}}, {"id": 23, "topic": "Options", "subtopic": "One-Period Binomial Replication", "question": "In a one-period binomial model, S₀=80, u=1.30, d=0.75, and the per-period risk-free accumulation factor is 1.04. Find the price of a European call with strike 85.", "choices": {"A": "8.49", "B": "7.28", "C": "12.15", "D": "10.87", "E": "9.63"}}, {"id": 24, "topic": "Options", "subtopic": "Butterfly Spread Payoff", "question": "An investor buys one 90-strike call for 14, sells two 100-strike calls for 8 each, and buys one 110-strike call for 4. All options have the same expiration. Find the maximum possible profit of the butterfly spread.", "choices": {"A": "8", "B": "2", "C": "10", "D": "12", "E": "6"}}, {"id": 25, "topic": "Options / Derivatives", "subtopic": "Floorlet Payoff Value", "question": "A 6-month floorlet has notional 8,000,000 and strike 3.0%. At reset, the 6-month reference rate is 2.2%. The payoff is made at the end of the 6-month period and is discounted at 1.1% for the period. Find the value at reset.", "choices": {"A": "30,584", "B": "33,204", "C": "29,112", "D": "31,651", "E": "32,000"}}, {"id": 26, "topic": "Swaps", "subtopic": "Value Of Pay-Fixed Swap", "question": "A pay-fixed annual-pay interest rate swap has notional 2,000,000 and fixed rate 4.5%. Just after a reset date, two payments remain. Current 1-year and 2-year spot rates are 3.8% and 4.0%. Find the value of the swap to the pay-fixed party.", "choices": {"A": "−24,180", "B": "−19,028", "C": "−7,903", "D": "19,028", "E": "−31,440"}}, {"id": 27, "topic": "Forwards / Fras", "subtopic": "Fra Payoff At Loan Maturity", "question": "A company is long an FRA on a 3-month loan with notional 3,000,000 and contract rate 5.2%. At reset, the 3-month reference rate is 4.7%. If the payoff is measured at the end of the 3-month loan period, find the payoff to the long FRA position.", "choices": {"A": "−3,872", "B": "3,750", "C": "−3,750", "D": "0", "E": "−4,112"}}, {"id": 28, "topic": "Interest Theory", "subtopic": "Treasury Bill Bank Discount", "question": "A 180-day Treasury bill with face amount 100,000 is quoted at a bank discount rate of 4.8% using a 360-day year. Find the effective annual yield using a 365-day year.", "choices": {"A": "4.92%", "B": "5.18%", "C": "4.80%", "D": "5.35%", "E": "5.05%"}}, {"id": 29, "topic": "Futures", "subtopic": "Equity Index Beta Hedge", "question": "An equity portfolio is worth 5,000,000 and has beta 1.20. The manager wants to reduce beta to 0.40 using stock index futures. The futures price is 2,520 and the contract multiplier is 250. How many futures contracts should be used?", "choices": {"A": "Buy 6", "B": "Sell 3", "C": "Sell 6", "D": "Sell 8", "E": "Buy 8"}}, {"id": 30, "topic": "Yield Curves", "subtopic": "Deferred Loan Forward Rate", "question": "The annual effective 1-year spot rate is 3.0%, and the annual effective 3-year spot rate is 4.2%. Find the annual effective rate for a 2-year loan that begins at time 1 and ends at time 3.", "choices": {"A": "4.58%", "B": "5.26%", "C": "4.35%", "D": "4.81%", "E": "5.03%"}}], "answerHashes": [2240267907, 2383144541, 2615185404, 4259238372, 251694897, 1711384065, 4291645496, 614911032, 2921987589, 1287771970, 2078063687, 3016104779, 4280792854, 1181944397, 1591737217, 95627221, 1940879645, 480904165, 2574993742, 585338073, 2047518715, 1674299893, 2597008791, 4097023790, 2302259066, 1466062361, 4249481617, 4005886518, 3786281635, 2851639076]}};
+const PASS_HASHES = {"2": 3226031534, "3": 3989361548};
+const EXAM_MS = (3 * 60 + 30) * 60 * 1000;
+const PASS_THRESHOLD = 0.70;
+const STORAGE_KEY = "fm_mock_three_sets_state_v1";
+const UNLOCK_KEY = "fm_mock_three_sets_unlocked_v1";
+
+const $ = id => document.getElementById(id);
+let selectedSetId = 1;
+let pendingUnlockSet = null;
+let timerHandle = null;
+let savePulse = 0;
+
+function currentSet(){ return EXAM_SETS[String(state.setId)]; }
+function selectedSet(){ return EXAM_SETS[String(selectedSetId)]; }
+
+function freshState(setId=1){
+  const set = EXAM_SETS[String(setId)];
+  return {
+    started:false, setId:setId, name:"", startedAt:null, current:0,
+    answers:Array(set.questions.length).fill(null),
+    flags:Array(set.questions.length).fill(false),
+    qTimes:Array(set.questions.length).fill(0),
+    currentEnteredAt:null, submittedAt:null,
+    confirmation:`FM${String(setId).padStart(2,"0")}-` + Math.floor(100000 + Math.random()*900000),
+    timedOut:false
+  };
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return freshState();
+    const s = JSON.parse(raw);
+    const set = EXAM_SETS[String(s.setId || 1)];
+    if(!set || !Array.isArray(s.answers) || s.answers.length !== set.questions.length) return freshState();
+    if(!Array.isArray(s.flags) || s.flags.length !== set.questions.length) s.flags = Array(set.questions.length).fill(false);
+    if(!Array.isArray(s.qTimes) || s.qTimes.length !== set.questions.length) s.qTimes = Array(set.questions.length).fill(0);
+    return Object.assign(freshState(s.setId || 1), s);
+  }catch(e){ return freshState(); }
+}
+let state = loadState();
+
+function loadUnlockedSets(){
+  try{
+    const raw = localStorage.getItem(UNLOCK_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(arr) ? arr.map(Number) : []);
+  }catch(e){
+    return new Set();
+  }
+}
+let unlockedSets = loadUnlockedSets();
+
+function saveUnlockedSets(){
+  try{
+    localStorage.setItem(UNLOCK_KEY, JSON.stringify([...unlockedSets]));
+  }catch(e){}
+}
+
+function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+
+function fnv1a(str){
+  let h = 2166136261;
+  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h,16777619); }
+  return h >>> 0;
+}
+
+function fmt(ms){
+  ms = Math.max(0,Math.floor(ms));
+  const total=Math.floor(ms/1000), h=Math.floor(total/3600), m=Math.floor((total%3600)/60), s=total%60;
+  return [h,m,s].map(n=>String(n).padStart(2,"0")).join(":");
+}
+function deadlineMs(){ return state.startedAt ? state.startedAt + EXAM_MS : null; }
+function remainingMs(){
+  if(!state.startedAt) return EXAM_MS;
+  const end = state.submittedAt || Date.now();
+  return Math.max(0, EXAM_MS - (end-state.startedAt));
+}
+function liveQTime(index){
+  let total=state.qTimes[index]||0;
+  if(!state.submittedAt && state.currentEnteredAt && index===state.current){
+    const now=Math.min(Date.now(),deadlineMs()||Date.now());
+    total += Math.max(0, now-state.currentEnteredAt);
+  }
+  return Math.max(0,total);
+}
+function accrueCurrent(){
+  if(state.submittedAt || !state.currentEnteredAt) return;
+  const now=Math.min(Date.now(),deadlineMs()||Date.now());
+  state.qTimes[state.current]+=Math.max(0,now-state.currentEnteredAt);
+  state.currentEnteredAt=now;
+}
+function answeredCount(){ return state.answers.filter(Boolean).length; }
+
+function answerHash(setId,q,letter){ return fnv1a(`FM26|SET${setId}|${q}|${letter}|rG7`); }
+function passedAttempt(){
+  const set=currentSet(); let correct=0;
+  set.questions.forEach((q,i)=>{
+    const a=state.answers[i];
+    if(a && answerHash(state.setId,q.id,a)===set.answerHashes[i]) correct++;
+  });
+  return (correct/set.questions.length)>=PASS_THRESHOLD;
+}
+
+function showOnly(which){
+  $("startScreen").classList.toggle("hidden",which!=="start");
+  $("examScreen").classList.toggle("hidden",which!=="exam");
+  $("resultScreen").classList.toggle("hidden",which!=="result");
+}
+
+function renderSetCards(){
+  const grid=$("setGrid"); grid.innerHTML="";
+  [1,2,3].forEach(id=>{
+    const s=EXAM_SETS[String(id)];
+    const isLocked = !!s.locked && !unlockedSets.has(id);
+    const card=document.createElement("div");
+    card.className="set-card"+(id===selectedSetId?" selected":"")+(isLocked?" locked":"");
+    card.innerHTML=`
+      <div class="set-top"><div class="set-num">${escapeHtml(s.label)}</div>
+        <span class="pill ${id===1?"open":"hard"}">${id===1?"Open":(isLocked?s.difficulty:"Unlocked")}</span></div>
+      <div class="set-name">${escapeHtml(s.name)}</div>
+      <div class="set-meta">30 questions · 3½ hours · 70% threshold</div>
+      <button class="set-action" data-set="${id}">${
+        id===selectedSetId ? "✓ Selected" : (isLocked ? "🔒 Enter passkey" : "Select set")
+      }</button>`;
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll(".set-action").forEach(btn=>btn.addEventListener("click",()=>selectOrUnlock(Number(btn.dataset.set))));
+}
+
+function selectOrUnlock(id){
+  const s=EXAM_SETS[String(id)];
+  const isLocked = !!s.locked && !unlockedSets.has(id);
+  if(isLocked){
+    pendingUnlockSet=id;
+    $("passTitle").textContent=`Unlock ${s.label}`;
+    $("passCopy").textContent=`Enter the passkey to unlock ${s.label} — ${s.name}. Once unlocked on this browser, it will stay unlocked when you switch between exam sets.`;
+    $("passInput").value=""; $("passError").textContent="";
+    $("passModal").classList.remove("hidden");
+    setTimeout(()=>$("passInput").focus(),40);
+  }else{
+    selectedSetId=id;
+    renderSetCards();
+  }
+}
+
+function tryUnlock(){
+  if(!pendingUnlockSet) return;
+  const input=$("passInput").value.trim();
+  const hash=fnv1a(`FMLOCK|${pendingUnlockSet}|${input}`);
+  if(hash!==PASS_HASHES[String(pendingUnlockSet)]){
+    $("passError").textContent="That passkey is not correct.";
+    $("passInput").select(); return;
+  }
+  unlockedSets.add(pendingUnlockSet);
+  saveUnlockedSets();
+  selectedSetId=pendingUnlockSet;
+  pendingUnlockSet=null;
+  $("passModal").classList.add("hidden");
+  renderSetCards();
+}
+
+function closePass(){ pendingUnlockSet=null; $("passModal").classList.add("hidden"); }
+
+function startExam(){
+  const name=$("studentName").value.trim();
+  if(!name){ $("nameError").textContent="Please enter the student's name first."; $("studentName").focus(); return; }
+  $("nameError").textContent="";
+  state=freshState(selectedSetId);
+  state.name=name; state.started=true; state.startedAt=Date.now(); state.currentEnteredAt=Date.now();
+  saveState(); renderExam();
+}
+
+function renderExam(){
+  const set=currentSet(); showOnly("exam");
+  $("topTitle").textContent=`FM ${set.label}`;
+  $("candidateLabel").textContent=`Candidate: ${state.name} · ${set.name}`;
+  renderPalette(); renderQuestion(); startTimer();
+}
+
+function renderPalette(){
+  const set=currentSet(), pal=$("palette"); pal.innerHTML="";
+  set.questions.forEach((q,i)=>{
+    const b=document.createElement("button"); b.className="qdot"; b.textContent=q.id;
+    if(i===state.current)b.classList.add("current"); if(state.answers[i])b.classList.add("answered"); if(state.flags[i])b.classList.add("flagged");
+    b.setAttribute("aria-label","Go to question "+q.id); b.addEventListener("click",()=>goTo(i)); pal.appendChild(b);
+  });
+  const a=answeredCount(); $("answeredLabel").textContent=`${a} / ${set.questions.length}`; $("progressFill").style.width=`${(a/set.questions.length)*100}%`;
+}
+
+function renderQuestion(){
+  const set=currentSet(), q=set.questions[state.current];
+  $("qCount").textContent=`Question ${q.id} of ${set.questions.length}`; $("topicTag").textContent=q.topic; $("subtopicTag").textContent=q.subtopic; $("questionText").textContent=q.question;
+  const wrap=$("choices"); wrap.innerHTML="";
+  Object.entries(q.choices).forEach(([letter,value])=>{
+    const b=document.createElement("button"); b.className="choice"; if(state.answers[state.current]===letter)b.classList.add("selected");
+    b.innerHTML=`<span class="letter">${letter}</span><span>${escapeHtml(value)}</span>`;
+    b.addEventListener("click",()=>{state.answers[state.current]=letter;saveState();renderQuestion();renderPalette();}); wrap.appendChild(b);
+  });
+  $("prevBtn").disabled=state.current===0; $("prevBtn").style.opacity=state.current===0?".45":"1";
+  $("flagBtn").classList.toggle("active",!!state.flags[state.current]); $("flagBtn").textContent=state.flags[state.current]?"★ Flagged":"☆ Flag";
+  $("nextBtn").textContent=state.current===set.questions.length-1?"Review & end →":"Next →"; $("qTimer").textContent=fmt(liveQTime(state.current));
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+
+function goTo(index){
+  const set=currentSet(); if(index<0||index>=set.questions.length||index===state.current)return;
+  accrueCurrent(); state.current=index; state.currentEnteredAt=Math.min(Date.now(),deadlineMs()||Date.now()); saveState();
+  renderQuestion(); renderPalette(); window.scrollTo({top:0,behavior:"smooth"});
+}
+function startTimer(){if(timerHandle)clearInterval(timerHandle);tick();timerHandle=setInterval(tick,1000);}
+function tick(){
+  if(state.submittedAt){if(timerHandle)clearInterval(timerHandle);return;}
+  const rem=remainingMs(); $("mainTimer").textContent=fmt(rem); $("qTimer").textContent=fmt(liveQTime(state.current));
+  savePulse++; if(savePulse%5===0)saveState();
+  if(rem<=0){state.timedOut=true;submitExam(true);}
+}
+function openSubmit(){
+  const set=currentSet(); $("modalAnswered").textContent=`${answeredCount()} / ${set.questions.length}`; $("modalRemaining").textContent=fmt(remainingMs()); $("submitModal").classList.remove("hidden");
+}
+function closeSubmit(){$("submitModal").classList.add("hidden");}
+function submitExam(fromTimeout=false){
+  if(state.submittedAt)return; accrueCurrent();
+  state.submittedAt=fromTimeout?Math.min(Date.now(),deadlineMs()):Date.now(); state.currentEnteredAt=null; state.timedOut=!!fromTimeout||state.timedOut;
+  saveState(); closeSubmit(); if(timerHandle)clearInterval(timerHandle); renderResult();
+}
+
+function renderResult(){
+  showOnly("result"); const set=currentSet(), pass=passedAttempt(), submitted=new Date(state.submittedAt||Date.now());
+  const dateText=submitted.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"2-digit"});
+  $("resultName").textContent=state.name;
+  $("resultMeta").innerHTML=`
+    <b>Exam Set:</b><span>${escapeHtml(set.label)} — ${escapeHtml(set.name)}</span>
+    <b>Test Date:</b><span>${escapeHtml(dateText)}</span>
+    <b>Confirmation Number:</b><span>${escapeHtml(state.confirmation)}</span>
+    <b>Test Center:</b><span>FM Practice Lab</span>`;
+  const status=$("resultStatus"); status.className="result-status "+(pass?"pass":"fail"); status.querySelector("span").textContent=pass?"Preliminary result: Pass":"Preliminary result: Did not pass";
+  let msg=pass
+    ? `Congratulations! A preliminary analysis of your ${set.label} practice responses indicates that you reached the passing threshold. Your exact score and the correct answers are being withheld so Raymond can review your attempt independently.`
+    : `A preliminary analysis of your ${set.label} practice responses indicates that you did not reach the passing threshold. Your exact score and the correct answers are being withheld so Raymond can review where the attempt can be improved.`;
+  if(state.timedOut)msg+=" The three-hour-thirty-minute exam timer expired and the attempt was submitted automatically.";
+  $("resultMessage").textContent=msg;
+}
+
+function downloadAttemptPDF(){
+  const set=currentSet(), pages=[], perPage=10;
+  const totalDuration=Math.min(EXAM_MS,Math.max(0,(state.submittedAt||Date.now())-state.startedAt));
+  const submitted=new Date(state.submittedAt||Date.now()), stamp=submitted.toLocaleString();
+  for(let start=0;start<set.questions.length;start+=perPage){
+    const pageNo=Math.floor(start/perPage)+1, lines=[];
+    lines.push({x:52,y:750,size:18,text:"FM Practice Attempt Report"});
+    lines.push({x:52,y:727,size:12,text:`EXAM SET: ${set.label.toUpperCase()} - ${set.name.toUpperCase()}`});
+    lines.push({x:52,y:704,size:10,text:"Student: "+state.name});
+    lines.push({x:52,y:688,size:9,text:"Submitted: "+stamp});
+    lines.push({x:340,y:704,size:10,text:"Total time: "+fmt(totalDuration)});
+    lines.push({x:340,y:688,size:9,text:"Confirmation: "+state.confirmation});
+    lines.push({x:52,y:663,size:8,text:"This feedback sheet intentionally excludes the correct answers and numerical score."});
+    let y=626;
+    for(let i=start;i<Math.min(start+perPage,set.questions.length);i++){
+      const q=set.questions[i], letter=state.answers[i]||"Unanswered", value=state.answers[i]?q.choices[state.answers[i]]:"";
+      lines.push({x:52,y:y,size:10,text:`Q${String(q.id).padStart(2,"0")}  ${q.topic} - ${q.subtopic}`});
+      lines.push({x:66,y:y-16,size:9,text:`Student answer: ${letter}${value?"  ("+value+")":""}     Time spent: ${fmt(state.qTimes[i]||0)}`}); y-=52;
+    }
+    lines.push({x:52,y:72,size:8,text:`${set.label} | Page ${pageNo} of ${Math.ceil(set.questions.length/perPage)} | Please send this PDF to Raymond for feedback.`});
+    pages.push(lines);
+  }
+  const pdf=makeSimplePDF(pages), blob=new Blob([pdf],{type:"application/pdf"}), a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); const safeName=(state.name||"student").replace(/[^a-z0-9]+/gi,"_").replace(/^_+|_+$/g,"");
+  a.download=`FM_${set.label.replace(" ","_")}_Attempt_${safeName||"student"}.pdf`; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
+}
+
+function asciiText(s){
+  const map={"−":"-","–":"-","—":"-","’":"'","“":'"',"”":'"',"•":"-","→":"->","≤":"<=","≥":">=","½":"1/2","δ":"delta","∫":"int","₀":"0","₁":"1","₂":"2","₃":"3","₄":"4","₅":"5","₆":"6","₇":"7","₈":"8","₉":"9"};
+  s=String(s).replace(/[−–—’“”•→≤≥½δ∫₀₁₂₃₄₅₆₇₈₉]/g,c=>map[c]||c);
+  try{s=s.normalize("NFKD").replace(/[\u0300-\u036f]/g,"");}catch(e){}
+  return s.replace(/[^\x20-\x7E]/g,"?");
+}
+function pdfEscape(s){return asciiText(s).replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)");}
+function makeSimplePDF(pages){
+  const objects=[],pageRefs=[],fontObj=3; for(let i=0;i<pages.length;i++)pageRefs.push(`${4+i*2} 0 R`);
+  objects[1]="<< /Type /Catalog /Pages 2 0 R >>"; objects[2]=`<< /Type /Pages /Kids [${pageRefs.join(" ")}] /Count ${pages.length} >>`; objects[3]="<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>";
+  pages.forEach((lines,i)=>{const pageObj=4+i*2,contentObj=5+i*2;let stream="";lines.forEach(line=>{stream+=`BT /F1 ${line.size} Tf 1 0 0 1 ${line.x} ${line.y} Tm (${pdfEscape(line.text)}) Tj ET\n`;});objects[pageObj]=`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 ${fontObj} 0 R >> >> /Contents ${contentObj} 0 R >>`;objects[contentObj]=`<< /Length ${stream.length} >>\nstream\n${stream}endstream`;});
+  let pdf="%PDF-1.4\n%1234\n",offsets=[0];for(let i=1;i<objects.length;i++){offsets[i]=pdf.length;pdf+=`${i} 0 obj\n${objects[i]}\nendobj\n`;}const xref=pdf.length;pdf+=`xref\n0 ${objects.length}\n0000000000 65535 f \n`;for(let i=1;i<objects.length;i++)pdf+=String(offsets[i]).padStart(10,"0")+" 00000 n \n";pdf+=`trailer\n<< /Size ${objects.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;return pdf;
+}
+
+$("startBtn").addEventListener("click",startExam); $("studentName").addEventListener("keydown",e=>{if(e.key==="Enter")startExam();});
+$("prevBtn").addEventListener("click",()=>goTo(state.current-1)); $("nextBtn").addEventListener("click",()=>{const set=currentSet();if(state.current===set.questions.length-1)openSubmit();else goTo(state.current+1);});
+$("flagBtn").addEventListener("click",()=>{state.flags[state.current]=!state.flags[state.current];saveState();renderQuestion();renderPalette();});
+$("endBtn").addEventListener("click",openSubmit); $("keepWorkingBtn").addEventListener("click",closeSubmit); $("confirmSubmitBtn").addEventListener("click",()=>submitExam(false));
+$("submitModal").addEventListener("click",e=>{if(e.target===$("submitModal"))closeSubmit();}); $("downloadBtn").addEventListener("click",downloadAttemptPDF);
+$("newAttemptBtn").addEventListener("click",()=>{if(confirm("Choose another exam set or start a fresh attempt? This will clear only the saved attempt; any exam sets you already unlocked on this browser will remain unlocked.")){localStorage.removeItem(STORAGE_KEY);state=freshState();selectedSetId=1;$("studentName").value="";renderSetCards();showOnly("start");window.scrollTo(0,0);}});
+$("cancelPassBtn").addEventListener("click",closePass); $("unlockBtn").addEventListener("click",tryUnlock); $("passInput").addEventListener("keydown",e=>{if(e.key==="Enter")tryUnlock();}); $("passModal").addEventListener("click",e=>{if(e.target===$("passModal"))closePass();});
+
+window.addEventListener("beforeunload",()=>{if(state.started&&!state.submittedAt){accrueCurrent();saveState();}});
+document.addEventListener("visibilitychange",()=>{if(state.started&&!state.submittedAt)saveState();});
+
+(function boot(){
+  renderSetCards();
+  if(state.started&&!state.submittedAt){
+    if(remainingMs()<=0){state.timedOut=true;submitExam(true);}
+    else{if(!state.currentEnteredAt)state.currentEnteredAt=Math.min(Date.now(),deadlineMs()||Date.now());renderExam();}
+  }else if(state.submittedAt){renderResult();}
+  else{showOnly("start");}
+})();
+</script>
+</body>
+</html>
