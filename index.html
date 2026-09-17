@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FM Diagnostic Assessment | ActuaryMadeEasy</title>
+<style>
+:root{
+  --ink:#22314b;--muted:#6d788a;--line:#e4e8ef;--bg:#f6f8f5;--paper:#fff;
+  --sage:#dcecdf;--sage2:#eef6ef;--sageStrong:#658e70;
+  --blue:#e6eefb;--blueStrong:#5876a5;--rose:#f7e7e9;--roseStrong:#a55b66;
+  --butter:#fff4d4;--shadow:0 22px 65px rgba(31,45,68,.11);--radius:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:
+  radial-gradient(circle at 8% 10%,rgba(220,236,223,.82),transparent 25rem),
+  radial-gradient(circle at 92% 12%,rgba(230,238,251,.78),transparent 24rem),var(--bg)}
+button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}button:disabled{cursor:not-allowed}.shell{min-height:100vh}
+.stars{position:fixed;inset:0;pointer-events:none;opacity:.24;background-image:radial-gradient(circle,#a1adbe 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.5),transparent 82%)}
+
+/* Landing */
+.start-wrap{min-height:100vh;display:grid;place-items:center;padding:30px 18px}
+.start-card{width:min(900px,100%);background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.95);box-shadow:var(--shadow);border-radius:32px;padding:38px;position:relative;overflow:hidden}
+.start-card:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-110px;top:-115px;background:var(--sage)}
+.start-card:after{content:"";position:absolute;width:165px;height:165px;border-radius:50%;left:-78px;bottom:-92px;background:var(--blue)}
+.brand{display:flex;align-items:center;gap:13px;position:relative;z-index:2}.mark{width:50px;height:50px;border-radius:16px;background:linear-gradient(145deg,#7897c1,#6b9777);display:grid;place-items:center;box-shadow:0 8px 20px rgba(72,93,126,.18)}.mark svg{width:29px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:950}.brand-name{font-weight:950;font-size:17px}
+h1{font-size:clamp(36px,5vw,58px);line-height:1.02;margin:23px 0 12px;letter-spacing:-.045em;position:relative;z-index:2}
+.lede{font-size:17px;line-height:1.62;color:var(--muted);max-width:780px;position:relative;z-index:2}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:25px 0 20px;position:relative;z-index:2}
+.fact{padding:14px 15px;border:1px solid var(--line);border-radius:17px;background:#fff}.fact b{display:block;font-size:18px}.fact span{font-size:11px;color:var(--muted)}
+.focus-box{position:relative;z-index:2;border:1px solid #dfe7e0;background:linear-gradient(135deg,#f8fcf8,#f7f9fd);border-radius:20px;padding:17px 18px;margin-bottom:21px}
+.focus-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:950;color:#68786e;margin-bottom:9px}.focus-list{display:flex;gap:8px;flex-wrap:wrap}.focus-pill{padding:7px 10px;border-radius:999px;background:#fff;border:1px solid #e2e6eb;font-size:12px;font-weight:850;color:#516077}
+.name-label{display:block;font-size:13px;font-weight:900;margin:12px 0 8px;position:relative;z-index:2}.name-row{display:flex;gap:12px;position:relative;z-index:2}.name-input{flex:1;border:1px solid #d7dde7;border-radius:16px;padding:15px 16px;outline:none;background:#fff}.name-input:focus{border-color:#8da4c6;box-shadow:0 0 0 4px rgba(141,164,198,.16)}
+.primary{border:0;background:var(--ink);color:#fff;border-radius:16px;padding:14px 20px;font-weight:900;box-shadow:0 10px 24px rgba(36,50,74,.16)}.primary:hover{transform:translateY(-1px)}
+.error{color:#a24f5b;font-size:13px;font-weight:850;min-height:20px;margin-top:7px}.note{font-size:12px;line-height:1.55;color:var(--muted);margin-top:13px;position:relative;z-index:2}
+.site-link{color:#536f9a;font-weight:850;text-decoration:none}.site-link:hover{text-decoration:underline}
+
+/* Assessment */
+.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.93);backdrop-filter:blur(16px);position:sticky;top:0;z-index:40}
+.top-left{display:flex;align-items:center;gap:12px;min-width:0}.mini{width:35px;height:35px;border-radius:11px;background:linear-gradient(145deg,#7897c1,#6b9777);display:grid;place-items:center}.mini svg{width:20px}.top-title{font-weight:950}.candidate{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-right{display:flex;align-items:center;gap:9px}.timer{border:1px solid var(--line);border-radius:14px;padding:8px 12px;background:#fff;min-width:126px}.timer small{display:block;font-size:9px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.08em}.timer strong{font-size:18px;font-variant-numeric:tabular-nums}.end-btn{border:1px solid #e0c8cc;background:#fff7f8;color:#8d4d56;border-radius:14px;padding:10px 13px;font-weight:900}
+.exam-grid{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:calc(100vh - 76px)}.sidebar{padding:23px 20px;border-right:1px solid var(--line);background:rgba(251,252,249,.88);position:sticky;top:76px;height:calc(100vh - 76px);overflow:auto}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:900}.progress-track{height:8px;background:#eceff3;border-radius:999px;margin:9px 0 18px;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#7fa88a,#7894bb)}
+.palette{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.qdot{aspect-ratio:1;border-radius:12px;border:1px solid #dfe3eb;background:#fff;color:var(--ink);font-weight:900;position:relative}.qdot.current{outline:3px solid rgba(85,114,170,.17);border-color:#7188ad}.qdot.answered{background:#eef3fb;border-color:#c9d5e7}.qdot.flagged:after{content:"";width:7px;height:7px;border-radius:50%;position:absolute;right:4px;top:4px;background:#d48b94}
+.legend{display:grid;gap:7px;margin-top:20px;font-size:11px;color:var(--muted)}.legend-row{display:flex;align-items:center;gap:8px}.legend-chip{width:15px;height:15px;border:1px solid #dfe3eb;border-radius:5px;background:#fff}.legend-chip.answered{background:#eef3fb;border-color:#c9d5e7}.legend-flag{width:8px;height:8px;border-radius:50%;background:#d48b94;margin-left:3px;margin-right:4px}
+.side-tip{margin-top:22px;padding:12px;border-radius:14px;background:var(--butter);font-size:11px;line-height:1.48;color:#685c3f}
+.question-area{padding:33px clamp(22px,5vw,72px) 44px;display:flex;justify-content:center}.question-wrap{width:min(920px,100%)}
+.qmeta{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:17px}.qcount{font-size:13px;color:var(--muted);font-weight:900}.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.tag{font-size:11px;font-weight:900;border-radius:999px;padding:7px 10px;background:var(--blue);color:#526b94}.tag.soft{background:var(--sage);color:#56765f}.qtime{text-align:right;border:1px solid var(--line);background:#fff;border-radius:14px;padding:9px 11px;min-width:116px}.qtime small{display:block;color:var(--muted);font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.qtime strong{font-variant-numeric:tabular-nums}
+.question-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 38px rgba(35,48,72,.06);padding:clamp(24px,4vw,40px)}.question-text{font-size:clamp(19px,2.05vw,26px);line-height:1.52;font-weight:740;letter-spacing:-.012em;margin:0 0 26px}.formula-block{margin:16px 0;padding:14px 16px;background:#f8faf9;border:1px solid #e4e9e5;border-radius:14px;line-height:1.72;font-family:"Cambria Math","STIX Two Math",Georgia,serif;font-size:17px;font-weight:500}.math{font-family:"Cambria Math","STIX Two Math",Georgia,serif;font-weight:500;letter-spacing:0}
+.choices{display:grid;gap:11px}.choice{width:100%;border:1px solid #dfe3ea;background:#fff;border-radius:17px;padding:14px 15px;text-align:left;display:grid;grid-template-columns:42px 1fr;align-items:center;gap:12px;color:var(--ink);transition:.16s}.choice:hover{border-color:#9baac1;transform:translateY(-1px)}.choice.selected{border-color:#7893ba;background:#f1f5fb;box-shadow:0 0 0 3px rgba(120,147,186,.12)}.letter{width:34px;height:34px;border-radius:11px;border:1px solid #dce1e9;display:grid;place-items:center;font-weight:950;background:#fafbfc}.choice.selected .letter{background:#6d87ae;color:#fff;border-color:#6d87ae}.choice-text{line-height:1.5;font-size:16px}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:17px}.nav-left,.nav-right{display:flex;gap:9px}.secondary{border:1px solid #dce1e8;background:#fff;border-radius:14px;padding:11px 14px;color:var(--ink);font-weight:900}.flag-btn.active{background:#fff1f3;border-color:#e5bdc4;color:#9d5c65}.next{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* Result */
+.result-wrap{min-height:100vh;padding:34px 20px 60px;display:grid;place-items:start center}.result-shell{width:min(960px,100%)}.result-note{text-align:center;color:var(--muted);font-size:12px;margin-bottom:14px;font-weight:800;letter-spacing:.02em}.result-paper{background:#fff;border:1px solid #dfe4da;border-top:4px solid #88aa72;box-shadow:var(--shadow);min-height:555px;position:relative;overflow:hidden;padding:42px 48px}.result-paper:before{content:"";position:absolute;width:320px;height:760px;background:#f1f2f1;left:-165px;top:-80px;transform:rotate(10deg)}.paper-inner{position:relative;z-index:2}.paper-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.result-kicker{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8390a2;font-weight:950;margin-bottom:6px}.paper-name{font-weight:950;font-size:24px;letter-spacing:-.02em}.practice-logo{display:flex;gap:11px;align-items:center}.practice-logo svg{width:56px}.practice-logo b{display:block;font-size:19px;letter-spacing:.04em}.practice-logo span{font-size:9px;color:var(--muted);letter-spacing:.12em;font-weight:900}.result-divider{height:1px;background:#e7e9ef;margin:28px 0 30px}.result-main-grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:start}.paper-title{margin-top:0;font-size:25px;font-weight:950;letter-spacing:-.025em}.paper-subtitle{margin-top:6px;color:var(--muted);font-size:14px;font-weight:750}.paper-meta{display:grid;grid-template-columns:auto auto;justify-content:end;gap:8px 14px;margin-top:0;font-size:13px;min-width:330px}.paper-meta b{text-align:right;color:#758197;font-size:11px;text-transform:uppercase;letter-spacing:.06em}.paper-meta span{font-weight:800;color:#2f3d56}.result-outcome{margin-top:42px;padding:25px 26px;border:1px solid #e6e9ee;border-radius:20px;background:rgba(255,255,255,.82)}.result-status{display:inline-flex;align-items:center;gap:9px;border-radius:999px;font-weight:950;font-size:14px;letter-spacing:.05em;text-transform:uppercase;padding:11px 15px;margin-top:5px}.result-status.pass{background:#e7f3e8;color:#4d7556}.result-status.fail{background:#f8e8ea;color:#96555f}.result-status i{width:8px;height:8px;border-radius:50%;background:currentColor}.result-message{font-size:14px;line-height:1.65;max-width:760px;margin-top:14px;color:#464d59}.result-footnote{margin-top:28px;color:#7b8597;font-size:11px;line-height:1.55}
+.report-box{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:19px 20px;display:flex;justify-content:space-between;align-items:center;gap:24px;box-shadow:0 10px 28px rgba(35,48,72,.05)}.report-box h3{margin:0 0 5px;font-size:16px}.report-box p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}.download{background:#5f7f69;color:#fff;border:0;border-radius:14px;padding:12px 16px;font-weight:900;white-space:nowrap}.fresh-attempt-btn{display:block;margin:12px auto 0}
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(26,35,50,.38);display:grid;place-items:center;padding:20px;z-index:90;backdrop-filter:blur(4px)}.modal{width:min(470px,100%);background:#fff;border-radius:24px;padding:27px;box-shadow:0 30px 90px rgba(20,31,48,.24)}.modal-icon{width:49px;height:49px;border-radius:16px;background:var(--rose);display:grid;place-items:center;font-size:21px}.modal h3{font-size:22px;margin:15px 0 7px}.modal p{color:var(--muted);font-size:13px;line-height:1.55}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+
+@media(max-width:840px){.facts{grid-template-columns:repeat(2,1fr)}.exam-grid{grid-template-columns:1fr}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:14px 20px}.palette{grid-template-columns:repeat(15,1fr)}.legend,.side-tip{display:none}.candidate{display:none}.question-area{padding-top:23px}.paper-head{flex-direction:column}.result-main-grid{grid-template-columns:1fr}.paper-meta{margin-top:0;justify-content:start;min-width:0}.paper-meta b{text-align:left}.practice-logo{align-self:flex-end}.result-paper{padding:28px 24px}.report-box{flex-direction:column;align-items:stretch}.report-box .download{width:100%}}
+@media(max-width:620px){.start-card{padding:27px 21px}.facts{grid-template-columns:1fr 1fr}.name-row{flex-direction:column}.topbar{padding:0 12px}.timer{min-width:92px}.timer small{display:none}.timer strong{font-size:16px}.palette{grid-template-columns:repeat(5,1fr)}.qmeta{align-items:stretch}.nav-row{flex-direction:column;align-items:stretch}.nav-left,.nav-right{width:100%}.nav-left button,.nav-right button{flex:1}.choice{grid-template-columns:38px 1fr;padding:13px 12px}.choice-text{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="shell">
+
+<section id="startScreen" class="start-wrap">
+  <div class="start-card">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 48 48" fill="none"><path d="M24 5 39 12v10c0 10.3-6.3 17.3-15 21-8.7-3.7-15-10.7-15-21V12L24 5Z" fill="white"/><path d="M16 23.5 22 29l10-11" stroke="#6f9b7b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><div class="eyebrow">ActuaryMadeEasy · Raymond Goh</div><div class="brand-name">FM Diagnostic Assessment</div></div>
+    </div>
+    <h1>FM Challenge<br>Diagnostic ✦</h1>
+    <p class="lede">A targeted assessment for candidates who are already comfortable with standard FM questions but want to stress-test complex cash flows, non-level loans, bonds, and duration / immunization.</p>
+
+    <div class="facts">
+      <div class="fact"><b>15</b><span>challenging questions</span></div>
+      <div class="fact"><b>1:30:00</b><span>assessment timer</span></div>
+      <div class="fact"><b>70%</b><span>preliminary threshold</span></div>
+      <div class="fact"><b>PDF</b><span>free diagnostic report</span></div>
+    </div>
+
+    <div class="focus-box">
+      <div class="focus-title">Main diagnostic areas</div>
+      <div class="focus-list">
+        <span class="focus-pill">Complex annuities</span><span class="focus-pill">Non-level payments</span><span class="focus-pill">Loan balances</span><span class="focus-pill">Refinancing</span><span class="focus-pill">Bonds</span><span class="focus-pill">Duration</span><span class="focus-pill">Immunization</span>
+      </div>
+    </div>
+
+    <label class="name-label" for="studentName">Student name</label>
+    <div class="name-row">
+      <input id="studentName" class="name-input" autocomplete="name" placeholder="Type your name">
+      <button id="startBtn" class="primary">Begin diagnostic →</button>
+    </div>
+    <div id="nameError" class="error"></div>
+    <p class="note">Your answers and timing are recorded only in this browser. During the assessment, no correct answers or solutions are shown. At the end you will receive only a preliminary <b>Pass / Did Not Pass</b> result and can download your attempt report for Raymond's free diagnostic review.<br><br><a class="site-link" href="https://soa-tutoring.vercel.app/" target="_blank" rel="noopener">soa-tutoring.vercel.app</a></p>
+  </div>
+</section>
+
+<section id="workScreen" class="hidden">
+  <header class="topbar">
+    <div class="top-left">
+      <div class="mini"><svg viewBox="0 0 48 48"><path d="M24 5 39 12v10c0 10.3-6.3 17.3-15 21-8.7-3.7-15-10.7-15-21V12L24 5Z" fill="white"/></svg></div>
+      <div><div class="top-title">FM Diagnostic · FM-DIAG-01</div><div id="candidateLabel" class="candidate"></div></div>
+    </div>
+    <div class="top-right">
+      <div class="timer"><small>Time remaining</small><strong id="mainTimer">01:30:00</strong></div>
+      <button id="endBtn" class="end-btn">Finish</button>
+    </div>
+  </header>
+
+  <div class="exam-grid">
+    <aside class="sidebar">
+      <div class="progress-label"><span>Answered</span><span id="progressLabel">0 / 15</span></div>
+      <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+      <div id="palette" class="palette"></div>
+      <div class="legend">
+        <div class="legend-row"><span class="legend-chip answered"></span> Answered</div>
+        <div class="legend-row"><span class="legend-chip"></span> Unanswered</div>
+        <div class="legend-row"><span class="legend-flag"></span> Flagged</div>
+      </div>
+      <div class="side-tip">Your time on each question is accumulated across every visit. This helps identify both knowledge gaps and questions that are costing you too much time.</div>
+    </aside>
+
+    <main class="question-area">
+      <div class="question-wrap">
+        <div class="qmeta">
+          <div><div id="qCount" class="qcount"></div><div class="tag-row"><span id="topicTag" class="tag"></span><span id="subtopicTag" class="tag soft"></span></div></div>
+          <div class="qtime"><small>Time on question</small><strong id="qTimer">00:00:00</strong></div>
+        </div>
+
+        <article class="question-card">
+          <div id="questionText" class="question-text"></div>
+          <div id="choices" class="choices"></div>
+        </article>
+
+        <div class="nav-row">
+          <div class="nav-left">
+            <button id="prevBtn" class="secondary">← Previous</button>
+            <button id="flagBtn" class="secondary flag-btn">☆ Flag</button>
+          </div>
+          <div class="nav-right">
+            <button id="nextBtn" class="secondary next">Next →</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<section id="resultScreen" class="result-wrap hidden">
+  <div class="result-shell">
+    <div class="result-note">FM Diagnostic Assessment · Preliminary Result</div>
+    <div class="result-paper">
+      <div class="paper-inner">
+        <div class="paper-head">
+          <div><div class="result-kicker">CANDIDATE</div><div id="resultName" class="paper-name"></div></div>
+          <div class="practice-logo">
+            <svg viewBox="0 0 70 70" fill="none" aria-hidden="true"><path d="M35 5 60 16v17c0 17-10.5 28.5-25 34C20.5 61.5 10 50 10 33V16L35 5Z" fill="#e7eefc"/><path d="M35 12 53 20v13c0 12.5-7.1 21.4-18 26-10.9-4.6-18-13.5-18-26V20l18-8Z" fill="#6f89ad"/><path d="m25 35 7 7 14-16" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div><b>ACTUARYMADEEASY</b><span>FM DIAGNOSTIC</span></div>
+          </div>
+        </div>
+
+        <div class="result-divider"></div>
+        <div class="result-main-grid">
+          <div><div class="result-kicker">ASSESSMENT</div><div class="paper-title">FM Challenge Diagnostic</div><div class="paper-subtitle">Complex annuities · Loans · Bonds · Duration / Immunization</div></div>
+          <div id="resultMeta" class="paper-meta"></div>
+        </div>
+
+        <div class="result-outcome">
+          <div class="result-kicker">PRELIMINARY OUTCOME</div>
+          <div id="resultStatus" class="result-status"><i></i><span></span></div>
+          <div id="resultMessage" class="result-message"></div>
+        </div>
+        <div class="result-footnote">The numerical score, correct answers, and solutions are intentionally not shown. Download the attempt report below and send it to Raymond Goh for the free diagnostic review.</div>
+      </div>
+    </div>
+
+    <div class="report-box">
+      <div><h3>Download your diagnostic report 📄</h3><p>The PDF contains your selected answer, topic, flag status, and time spent for every question. It does <b>not</b> contain the answer key or numerical score. Send this PDF to Raymond for feedback on where to focus before your FM exam.</p></div>
+      <button id="downloadBtn" class="download">Download attempt PDF ↓</button>
+    </div>
+    <button id="homeBtn" class="secondary fresh-attempt-btn">Start a fresh attempt</button>
+  </div>
+</section>
+
+<div id="finishModal" class="modal-bg hidden">
+  <div class="modal">
+    <div class="modal-icon">✦</div>
+    <h3>Finish this diagnostic?</h3>
+    <p id="finishCopy"></p>
+    <div class="modal-actions"><button id="keepBtn" class="secondary">Keep working</button><button id="finishConfirmBtn" class="primary">Yes, finish</button></div>
+  </div>
+</div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    id:1, topic:"Complex Annuities", subtopic:"Arithmetic increasing payments",
+    question:`An annuity makes 10 annual payments at the end of each year. The first payment is 1,000 and each subsequent payment is 100 greater than the previous payment. The annual effective interest rate is 5%. Calculate the present value of the annuity.`,
+    choices:{A:"10,340",B:"11,224",C:"11,560",D:"10,887",E:"12,104"}
+  },
+  {
+    id:2, topic:"Complex Annuities", subtopic:"Deferred growing annuity",
+    question:`An annuity makes 8 annual payments. The first payment of 1,200 is made at the end of year 3. Each subsequent payment is 4% greater than the preceding payment. The annual effective interest rate is 7%. Calculate the present value at time 0.`,
+    choices:{A:"6,750",B:"7,109",C:"7,380",D:"7,625",E:"7,950"}
+  },
+  {
+    id:3, topic:"Complex Annuities", subtopic:"Repeating perpetuity",
+    question:`A perpetuity pays 100 at the end of year 1, 200 at the end of year 2, 300 at the end of year 3, and 400 at the end of year 4. This four-payment pattern then repeats forever. The annual effective interest rate is 6%. Calculate the present value of the perpetuity.`,
+    choices:{A:"3,775",B:"4,240",C:"4,440",D:"4,710",E:"4,045"}
+  },
+  {
+    id:4, topic:"Complex Annuities", subtopic:"Frequency conversion + arithmetic growth",
+    question:`A fund receives 12 quarterly deposits. The first deposit is 500 at the end of the first quarter, and each subsequent quarterly deposit is 25 greater than the previous deposit. Interest is credited at a nominal annual rate of 6% convertible monthly. Calculate the accumulated value immediately after the 12th deposit.`,
+    choices:{A:"7,895",B:"8,086",C:"8,259",D:"8,412",E:"8,688"}
+  },
+  {
+    id:5, topic:"Loans", subtopic:"Increasing loan payments",
+    question:`A loan is repaid with 10 annual payments. The first payment is 5,000 at the end of year 1, and each subsequent payment is 500 greater than the previous payment. The annual effective interest rate is 6.5%. Calculate the original amount of the loan.`,
+    choices:{A:"50,264",B:"47,920",C:"49,140",D:"51,780",E:"53,210"}
+  },
+  {
+    id:6, topic:"Loans", subtopic:"Irregular payment pattern + balance",
+    question:`A 15-year loan is repaid annually with a repeating three-payment pattern of 2,000, 2,000, and 3,500. Thus, payments 1 and 2 are 2,000, payment 3 is 3,500, and the pattern repeats. The annual effective interest rate is 5%. Calculate the outstanding loan balance immediately after payment 7.`,
+    choices:{A:"15,605",B:"16,105",C:"16,950",D:"16,478",E:"17,420"}
+  },
+  {
+    id:7, topic:"Loans", subtopic:"Missed payments / catch-up",
+    question:`A borrower is scheduled to make level annual payments of 10,000. The borrower makes all payments through time 3, but misses the scheduled payments at times 4 and 5. At time 6, the borrower makes the regular scheduled payment plus an additional catch-up amount so that the loan is exactly back on its original amortization schedule immediately after time 6. The annual effective interest rate is 6%. Calculate the catch-up amount.`,
+    choices:{A:"20,000",B:"20,600",C:"21,836",D:"21,200",E:"22,472"}
+  },
+  {
+    id:8, topic:"Loans", subtopic:"Refinancing + growing payments",
+    question:`A 100,000 loan is originally amortized with 20 level annual payments at an annual effective rate of 6%. Immediately after the fifth payment, the outstanding balance is refinanced at an annual effective rate of 5%. Under the new terms, 15 annual payments remain. The first new payment is made one year after refinancing, and each later payment is 2% greater than the preceding payment. Calculate the first payment under the new terms.`,
+    choices:{A:"6,840",B:"7,020",C:"7,450",D:"7,680",E:"7,204"}
+  },
+  {
+    id:9, topic:"Loans", subtopic:"Non-level principal amortization",
+    question:`A 120,000 loan is repaid over 8 years. The principal repaid at the end of year 1 is 8,000, and the amount of principal repaid increases by a constant amount each year. The 8 principal repayments exactly total 120,000. Interest is charged at an annual effective rate of 6% on the outstanding balance immediately before each payment. Calculate the total payment at the end of year 5.`,
+    choices:{A:"19,760",B:"20,560",C:"18,560",D:"21,360",E:"22,160"}
+  },
+  {
+    id:10, topic:"Bonds", subtopic:"Price with non-par redemption",
+    question:`A bond has face amount 1,000 and pays coupons at a nominal annual rate of 6% convertible semiannually. The bond is redeemed for 1,050 at the end of 8 years. The yield rate is a nominal annual rate of 5% convertible semiannually. Calculate the price of the bond.`,
+    choices:{A:"1,098.96",B:"1,049.00",C:"1,074.00",D:"1,125.00",E:"1,150.00"}
+  },
+  {
+    id:11, topic:"Bonds", subtopic:"Callable bond / guaranteed yield",
+    question:`A 10-year bond has face amount 1,000 and annual coupons of 70. The issuer may redeem the bond for 1,050 immediately after the coupon at the end of year 5, for 1,020 immediately after the coupon at the end of year 8, or for 1,000 at maturity at the end of year 10. Calculate the maximum price an investor can pay to guarantee an annual effective yield of at least 6%, regardless of when the issuer redeems the bond.`,
+    choices:{A:"1,058.00",B:"1,079.49",C:"1,073.60",D:"1,074.65",E:"1,066.00"}
+  },
+  {
+    id:12, topic:"Bonds", subtopic:"Non-level coupons",
+    question:`A 5-year bond is redeemed for 1,000 at maturity. Annual coupons at the ends of years 1 through 5 are 40, 50, 60, 70, and 80, respectively. The annual effective yield rate is 6%. Calculate the price of the bond.`,
+    choices:{A:"970.40",B:"983.60",C:"1,006.90",D:"995.10",E:"1,021.50"}
+  },
+  {
+    id:13, topic:"Bonds", subtopic:"Book value / premium amortization",
+    question:`A 10-year bond has redemption value 1,000 and annual coupons of 80. The bond is purchased to yield 6% effective annually. Calculate the amount of premium amortized in the fifth coupon payment.`,
+    choices:{A:"12.65",B:"14.10",C:"11.22",D:"15.88",E:"17.46"}
+  },
+  {
+    id:14, topic:"Duration", subtopic:"Portfolio duration matching",
+    question:`A single liability of 250,000 is due at time 7. The annual effective yield rate is 5%. An insurer will fund the liability using two zero-coupon bonds maturing at times 4 and 11. The market value of the asset portfolio is set equal to the present value of the liability, and the Macaulay duration of the assets is set equal to the Macaulay duration of the liability. Calculate the market value invested in the 11-year zero-coupon bond.`,
+    choices:{A:"71,068",B:"73,982",C:"78,950",D:"81,606",E:"76,144"}
+  },
+  {
+    id:15, topic:"Immunization", subtopic:"Present value + duration matching",
+    question:`An insurer has liabilities of 80,000 at time 5 and 120,000 at time 8. The annual effective yield rate is 5%. The insurer will immunize these liabilities using zero-coupon bonds maturing at times 2 and 10. The asset portfolio must have the same present value and Macaulay duration as the liabilities. Calculate the face amount of the 10-year zero-coupon bond.`,
+    choices:{A:"137,513",B:"128,900",C:"133,800",D:"142,600",E:"147,900"}
+  }
+];
+
+const EXAM_MS = 90 * 60 * 1000;
+const PASS_THRESHOLD = 0.70;
+const ATTEMPT_KEY = "fm_diagnostic_15_v1";
+const ANSWER_HASHES = [3140243344,691583327,118062213,1531067242,3223607587,3756041113,4093010363,3337588384,566203214,3790165975,2571514350,3873460762,4126868671,4149274551,3485342488];
+const $=id=>document.getElementById(id);
+let timerHandle=null,savePulse=0,state=loadAttempt();
+
+function fnv1a(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function freshState(){const n=QUESTIONS.length;return {started:false,name:"",startedAt:null,submittedAt:null,current:0,answers:Array(n).fill(null),flags:Array(n).fill(false),qTimes:Array(n).fill(0),currentEnteredAt:null,timedOut:false,confirmation:`FM-DIAG-01-${Math.floor(100000+Math.random()*900000)}`}}
+function loadAttempt(){try{const r=localStorage.getItem(ATTEMPT_KEY);if(!r)return freshState();const s=JSON.parse(r);if(!Array.isArray(s.answers)||s.answers.length!==QUESTIONS.length)return freshState();if(!Array.isArray(s.flags))s.flags=Array(QUESTIONS.length).fill(false);if(!Array.isArray(s.qTimes))s.qTimes=Array(QUESTIONS.length).fill(0);return Object.assign(freshState(),s)}catch(e){return freshState()}}
+function saveAttempt(){try{localStorage.setItem(ATTEMPT_KEY,JSON.stringify(state))}catch(e){}}
+function fmt(ms){ms=Math.max(0,Math.floor(ms));const t=Math.floor(ms/1000),h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60;return [h,m,s].map(n=>String(n).padStart(2,"0")).join(":")}
+function deadline(){return state.startedAt?state.startedAt+EXAM_MS:null}
+function remaining(){if(!state.startedAt)return EXAM_MS;const end=state.submittedAt||Date.now();return Math.max(0,EXAM_MS-(end-state.startedAt))}
+function liveQTime(i){let t=state.qTimes[i]||0;if(!state.submittedAt&&state.currentEnteredAt&&i===state.current)t+=Math.max(0,Math.min(Date.now(),deadline())-state.currentEnteredAt);return t}
+function accrue(){if(state.submittedAt||!state.currentEnteredAt)return;const now=Math.min(Date.now(),deadline());state.qTimes[state.current]+=Math.max(0,now-state.currentEnteredAt);state.currentEnteredAt=now}
+function showOnly(which){$("startScreen").classList.toggle("hidden",which!=="start");$("workScreen").classList.toggle("hidden",which!=="work");$("resultScreen").classList.toggle("hidden",which!=="result")}
+
+function startSession(){const name=$("studentName").value.trim();if(!name){$("nameError").textContent="Please enter your name first.";$("studentName").focus();return}$("nameError").textContent="";state=freshState();state.name=name;state.started=true;state.startedAt=Date.now();state.currentEnteredAt=Date.now();saveAttempt();renderWork()}
+function renderWork(){showOnly("work");$("candidateLabel").textContent=`${state.name} · 15-question challenge diagnostic`;renderPalette();renderQuestion();startTimer()}
+function renderPalette(){const p=$("palette");p.innerHTML="";QUESTIONS.forEach((q,i)=>{const b=document.createElement("button");b.className="qdot";b.textContent=q.id;if(i===state.current)b.classList.add("current");if(state.answers[i])b.classList.add("answered");if(state.flags[i])b.classList.add("flagged");b.onclick=()=>goTo(i);p.appendChild(b)});const count=state.answers.filter(Boolean).length;$("progressLabel").textContent=`${count} / ${QUESTIONS.length}`;$("progressFill").style.width=`${count/QUESTIONS.length*100}%`}
+function renderQuestion(){const q=QUESTIONS[state.current];$("qCount").textContent=`Question ${q.id} of ${QUESTIONS.length}`;$("topicTag").textContent=q.topic;$("subtopicTag").textContent=q.subtopic;$("questionText").innerHTML=q.question;const wrap=$("choices");wrap.innerHTML="";Object.entries(q.choices).forEach(([letter,val])=>{const b=document.createElement("button");b.className="choice"+(state.answers[state.current]===letter?" selected":"");b.innerHTML=`<span class="letter">${letter}</span><span class="choice-text">${val}</span>`;b.onclick=()=>{state.answers[state.current]=letter;saveAttempt();renderQuestion();renderPalette()};wrap.appendChild(b)});$("prevBtn").disabled=state.current===0;$("prevBtn").style.opacity=state.current===0?".45":"1";$("flagBtn").classList.toggle("active",!!state.flags[state.current]);$("flagBtn").textContent=state.flags[state.current]?"★ Flagged":"☆ Flag";$("nextBtn").textContent=state.current===QUESTIONS.length-1?"Review & finish →":"Next →";$("qTimer").textContent=fmt(liveQTime(state.current))}
+function goTo(i){if(i<0||i>=QUESTIONS.length||i===state.current)return;accrue();state.current=i;state.currentEnteredAt=Date.now();saveAttempt();renderQuestion();renderPalette();window.scrollTo({top:0,behavior:"smooth"})}
+function startTimer(){if(timerHandle)clearInterval(timerHandle);tick();timerHandle=setInterval(tick,1000)}
+function tick(){if(state.submittedAt){if(timerHandle)clearInterval(timerHandle);return}const r=remaining();$("mainTimer").textContent=fmt(r);$("qTimer").textContent=fmt(liveQTime(state.current));savePulse++;if(savePulse%5===0)saveAttempt();if(r<=0){state.timedOut=true;finishSession(true)}}
+function correctCount(){let n=0;QUESTIONS.forEach((q,i)=>{const a=state.answers[i];if(a&&fnv1a(`FM26|D1|${q.id}|${a}|rG7`)===ANSWER_HASHES[i])n++});return n}
+function openFinish(){const done=state.answers.filter(Boolean).length;$("finishCopy").textContent=`You have answered ${done} of ${QUESTIONS.length} questions. Once submitted, the attempt is locked and only a preliminary Pass / Did Not Pass result will be shown.`;$("finishModal").classList.remove("hidden")}
+function finishSession(timeout=false){if(state.submittedAt)return;accrue();state.submittedAt=timeout?Math.min(Date.now(),deadline()):Date.now();state.timedOut=!!timeout;state.currentEnteredAt=null;saveAttempt();$("finishModal").classList.add("hidden");if(timerHandle)clearInterval(timerHandle);renderResult()}
+function renderResult(){showOnly("result");const c=correctCount(),pass=c/QUESTIONS.length>=PASS_THRESHOLD,d=new Date(state.submittedAt||Date.now()),total=Math.min(EXAM_MS,Math.max(0,(state.submittedAt||Date.now())-state.startedAt)),answered=state.answers.filter(Boolean).length;$("resultName").textContent=state.name||"Candidate";$("resultMeta").innerHTML=`<b>Set ID</b><span>FM-DIAG-01</span><b>Date</b><span>${esc(d.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"2-digit"}))}</span><b>Answered</b><span>${answered} / ${QUESTIONS.length}</span><b>Time used</b><span>${fmt(total)}</span><b>Confirmation</b><span>${esc(state.confirmation)}</span>`;const rs=$("resultStatus");rs.className="result-status "+(pass?"pass":"fail");rs.querySelector("span").textContent=pass?"Preliminary result: Pass":"Preliminary result: Did not pass";$("resultMessage").textContent=pass?"This attempt reached the diagnostic passing threshold. Download the attempt report and send it to Raymond for a free review of your topic strengths, weak areas, and question timing.":"This attempt did not reach the diagnostic passing threshold. Download the attempt report and send it to Raymond for a free review of where the main gaps and time-pressure points are."}
+
+function ascii(s){const map={"−":"-","–":"-","—":"-","’":"'","“":"\"","”":"\"","•":"-","→":"->","≤":"<=","≥":">="};s=String(s).replace(/[−–—’“”•→≤≥]/g,c=>map[c]||c);try{s=s.normalize("NFKD").replace(/[\u0300-\u036f]/g,"")}catch(e){}return s.replace(/[^\x20-\x7E]/g,"?")}
+function pdfEsc(s){return ascii(s).replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)")}
+function simplePDF(pages){const o=[],refs=[],font=3;for(let i=0;i<pages.length;i++)refs.push(`${4+i*2} 0 R`);o[1]="<< /Type /Catalog /Pages 2 0 R >>";o[2]=`<< /Type /Pages /Kids [${refs.join(" ")}] /Count ${pages.length} >>`;o[3]="<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>";pages.forEach((lines,i)=>{let stream="";lines.forEach(l=>stream+=`BT /F1 ${l.size} Tf 1 0 0 1 ${l.x} ${l.y} Tm (${pdfEsc(l.text)}) Tj ET\n`);o[4+i*2]=`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 ${font} 0 R >> >> /Contents ${5+i*2} 0 R >>`;o[5+i*2]=`<< /Length ${stream.length} >>\nstream\n${stream}endstream`});let pdf="%PDF-1.4\n%1234\n",offs=[0];for(let i=1;i<o.length;i++){offs[i]=pdf.length;pdf+=`${i} 0 obj\n${o[i]}\nendobj\n`}const x=pdf.length;pdf+=`xref\n0 ${o.length}\n0000000000 65535 f \n`;for(let i=1;i<o.length;i++)pdf+=String(offs[i]).padStart(10,"0")+" 00000 n \n";pdf+=`trailer\n<< /Size ${o.length} /Root 1 0 R >>\nstartxref\n${x}\n%%EOF`;return pdf}
+function downloadPDF(){const pages=[],per=8,total=Math.min(EXAM_MS,Math.max(0,(state.submittedAt||Date.now())-state.startedAt)),stamp=new Date(state.submittedAt||Date.now()).toLocaleString();for(let start=0;start<QUESTIONS.length;start+=per){const lines=[];let y=748;if(start===0){lines.push({x:44,y,size:18,text:"FM Diagnostic Assessment - Attempt Report"});y-=26;lines.push({x:44,y,size:10,text:"ActuaryMadeEasy | Raymond Goh | https://soa-tutoring.vercel.app/"});y-=24;lines.push({x:44,y,size:11,text:`Candidate: ${state.name}`});y-=18;lines.push({x:44,y,size:10,text:`Set ID: FM-DIAG-01    Confirmation: ${state.confirmation}`});y-=16;lines.push({x:44,y,size:10,text:`Submitted: ${stamp}    Total time used: ${fmt(total)}`});y-=16;lines.push({x:44,y,size:10,text:`Answered: ${state.answers.filter(Boolean).length} / ${QUESTIONS.length}`});y-=24;lines.push({x:44,y,size:9,text:"Correct answers, right/wrong indicators, and numerical score are intentionally excluded."});y-=16;lines.push({x:44,y,size:9,text:"Send this PDF to Raymond Goh for your free diagnostic review."});y-=28}else{lines.push({x:44,y,size:14,text:"FM Diagnostic Assessment - Attempt Report (continued)"});y-=30}
+  for(let i=start;i<Math.min(start+per,QUESTIONS.length);i++){const q=QUESTIONS[i],ans=state.answers[i]||"Unanswered",flag=state.flags[i]?"Yes":"No";lines.push({x:44,y,size:11,text:`Q${q.id}. ${q.topic} - ${q.subtopic}`});y-=17;lines.push({x:60,y,size:10,text:`Selected answer: ${ans}    Time: ${fmt(state.qTimes[i]||0)}    Flagged: ${flag}`});y-=24}pages.push(lines)}const pdf=simplePDF(pages),blob=new Blob([pdf],{type:"application/pdf"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`FM_Diagnostic_${state.name.replace(/[^a-z0-9]+/gi,"_")}_${state.confirmation}.pdf`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},800)}
+
+$("startBtn").onclick=startSession;$("studentName").addEventListener("keydown",e=>{if(e.key==="Enter")startSession()});$("prevBtn").onclick=()=>goTo(state.current-1);$("nextBtn").onclick=()=>{if(state.current===QUESTIONS.length-1)openFinish();else goTo(state.current+1)};$("flagBtn").onclick=()=>{state.flags[state.current]=!state.flags[state.current];saveAttempt();renderQuestion();renderPalette()};$("endBtn").onclick=openFinish;$("keepBtn").onclick=()=>$("finishModal").classList.add("hidden");$("finishConfirmBtn").onclick=()=>finishSession(false);$("downloadBtn").onclick=downloadPDF;$("homeBtn").onclick=()=>{if(confirm("Start a fresh attempt? This will clear the finished attempt from this browser.")){localStorage.removeItem(ATTEMPT_KEY);state=freshState();$("studentName").value="";showOnly("start")}};window.addEventListener("beforeunload",()=>{if(state.started&&!state.submittedAt){accrue();saveAttempt()}});
+(function boot(){if(state.started&&!state.submittedAt){if(remaining()<=0){state.timedOut=true;finishSession(true)}else renderWork()}else if(state.submittedAt)renderResult();else showOnly("start")})();
+</script>
+</body>
+</html>
